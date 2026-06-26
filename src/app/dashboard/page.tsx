@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Dashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { user, profileData } = useAuth();
 
   return (
     <main className="flex-1 p-6 md:p-16 bg-canvas w-full max-w-7xl mx-auto">
@@ -14,7 +16,9 @@ export default function Dashboard() {
           {/* Header */}
           <div className="flex justify-between items-end">
             <div>
-              <h2 className="text-4xl font-display text-primary font-bold">Today</h2>
+              <h2 className="text-4xl font-display text-primary font-bold">
+                {profileData?.firstName ? `Today, ${profileData.firstName}` : "Today"}
+              </h2>
               <p className="text-lg text-on-surface-variant mt-1">Thursday, October 24</p>
             </div>
             {/* Desktop Actions */}
@@ -40,7 +44,7 @@ export default function Dashboard() {
                 <img
                   className="w-10 h-10 rounded-full object-cover border border-low-contrast cursor-pointer"
                   alt="Profile"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuByD8iqD0-wsiqknttzQBkMDaEW4yBTHhOvIBHkcB_G1FfnK7pyUqbobcM_D-rUN9TlIb-g3V2571HgZsd2MEkFSBZSxzqan9CiYI84DIprgLbtuAo2UpsEDAv3XgQs4gBit42MgWndn_Zv5UEsRBL3o8YvUjCacPGIeK-y2wWiOIpcVwh8R5ruuLV3i4yQnhgJ2vFRwcx7zHjkrlHo8VTaOj8n0BfHW0moudDX02m4Dp7U5SqUSCHXxvRR91M6JM2roSc9ApcpJKA"
+                  src={user?.photoURL || "https://lh3.googleusercontent.com/aida-public/AB6AXuByD8iqD0-wsiqknttzQBkMDaEW4yBTHhOvIBHkcB_G1FfnK7pyUqbobcM_D-rUN9TlIb-g3V2571HgZsd2MEkFSBZSxzqan9CiYI84DIprgLbtuAo2UpsEDAv3XgQs4gBit42MgWndn_Zv5UEsRBL3o8YvUjCacPGIeK-y2wWiOIpcVwh8R5ruuLV3i4yQnhgJ2vFRwcx7zHjkrlHo8VTaOj8n0BfHW0moudDX02m4Dp7U5SqUSCHXxvRR91M6JM2roSc9ApcpJKA"}
                 />
               </Link>
             </div>

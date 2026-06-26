@@ -1,18 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SettingsPage() {
-  const [firstName, setFirstName] = useState("Eleanor");
-  const [lastName, setLastName] = useState("Vance");
-  const [email, setEmail] = useState("eleanor.vance@example.com");
+  const { profileData, updateProfile, loading } = useAuth();
+  
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [pushNotifications, setPushNotifications] = useState(true);
   const [weeklyReport, setWeeklyReport] = useState(true);
 
-  const handleSave = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (profileData) {
+      setFirstName(profileData.firstName || "");
+      setLastName(profileData.lastName || "");
+      setEmail(profileData.email || "");
+      // Firestore fields map to local state
+      setPushNotifications(profileData.pushNotifications !== false);
+      setWeeklyReport(profileData.weeklyReport !== false);
+    }
+  }, [profileData]);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Settings saved successfully!");
+    try {
+      await updateProfile({
+        firstName,
+        lastName,
+        pushNotifications,
+        weeklyReport,
+      });
+      alert("Settings saved successfully!");
+    } catch (err: any) {
+      console.error("Save settings error:", err);
+      alert("Failed to save settings. Please try again.");
+    }
   };
 
   return (

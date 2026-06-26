@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter();
-  const { signIn, signInWithGoogle } = useAuth();
+  const { signUp, signInWithGoogle } = useAuth();
   
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,25 +22,25 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await signIn(email, password);
+      await signUp(email, password, firstName, lastName);
       router.push("/dashboard");
     } catch (err: any) {
-      console.error("Login error:", err);
-      setError(err.message || "Failed to sign in. Please verify your email and password.");
+      console.error("Signup error:", err);
+      setError(err.message || "Failed to create an account. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignup = async () => {
     setError("");
     setLoading(true);
     try {
       await signInWithGoogle();
       router.push("/dashboard");
     } catch (err: any) {
-      console.error("Google login error:", err);
-      setError(err.message || "Failed to sign in with Google.");
+      console.error("Google auth error:", err);
+      setError(err.message || "Failed to sign up with Google.");
     } finally {
       setLoading(false);
     }
@@ -55,7 +57,7 @@ export default function LoginPage() {
 
         {/* Authentication Card */}
         <div className="bg-surface rounded-xl border border-low-contrast p-8 md:p-12">
-          <h2 className="font-display text-2xl text-primary mb-8 text-center">Sign In</h2>
+          <h2 className="font-display text-2xl text-primary mb-8 text-center">Create Account</h2>
           
           {error && (
             <div className="mb-6 p-4 bg-error-container text-error rounded text-sm font-medium border border-red-200">
@@ -64,6 +66,40 @@ export default function LoginPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name Fields */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-on-surface-variant block uppercase tracking-wider" htmlFor="firstName">
+                  First Name
+                </label>
+                <input
+                  className="w-full bg-surface-container-lowest border border-border-low-contrast rounded px-4 py-3 font-body text-base text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-on-surface-variant block uppercase tracking-wider" htmlFor="lastName">
+                  Last Name
+                </label>
+                <input
+                  className="w-full bg-surface-container-lowest border border-border-low-contrast rounded px-4 py-3 font-body text-base text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
             {/* Email Input */}
             <div className="space-y-2">
               <label className="text-xs font-semibold text-on-surface-variant block uppercase tracking-wider" htmlFor="email">
@@ -80,34 +116,31 @@ export default function LoginPage() {
                 required
               />
             </div>
+
             {/* Password Input */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="text-xs font-semibold text-on-surface-variant block uppercase tracking-wider" htmlFor="password">
-                  Password
-                </label>
-                <a className="text-xs font-semibold text-primary hover:text-secondary transition-colors underline decoration-border-low-contrast underline-offset-4" href="#">
-                  Forgot password?
-                </a>
-              </div>
+              <label className="text-xs font-semibold text-on-surface-variant block uppercase tracking-wider" htmlFor="password">
+                Password
+              </label>
               <input
                 className="w-full bg-surface-container-lowest border border-border-low-contrast rounded px-4 py-3 font-body text-base text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                 id="password"
                 name="password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
+
             {/* Primary Action */}
             <button
               disabled={loading}
               className="w-full bg-primary text-white font-semibold text-sm rounded py-4 mt-8 hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               type="submit"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Signing up..." : "Sign Up"}
               <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>
                 arrow_forward
               </span>
@@ -123,7 +156,7 @@ export default function LoginPage() {
 
           {/* Social Login */}
           <button
-            onClick={handleGoogleLogin}
+            onClick={handleGoogleSignup}
             disabled={loading}
             className="w-full bg-surface-container-lowest border border-border-low-contrast text-on-surface font-semibold text-sm rounded py-4 hover:bg-surface-container-low transition-colors flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50"
           >
@@ -136,12 +169,12 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          {/* Registration Link */}
+          {/* Login Link */}
           <div className="mt-8 text-center">
             <p className="font-body text-sm text-on-surface-variant">
-              Don't have an account?{" "}
-              <Link className="text-primary font-medium hover:text-secondary transition-colors underline decoration-border-low-contrast underline-offset-4" href="/signup">
-                Sign up
+              Already have an account?{" "}
+              <Link className="text-primary font-medium hover:text-secondary transition-colors underline decoration-border-low-contrast underline-offset-4" href="/login">
+                Sign in
               </Link>
             </p>
           </div>

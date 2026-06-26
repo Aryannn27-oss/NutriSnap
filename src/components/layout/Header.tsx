@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="bg-surface dark:bg-background border-b border-low-contrast flex justify-between items-center w-full px-6 md:px-16 h-16 max-w-7xl mx-auto sticky top-0 z-40 shadow-sm md:shadow-none">
@@ -58,11 +60,13 @@ export default function Header() {
         <Link href="/settings" className="text-on-surface-variant hover:text-primary transition-colors p-1">
           <span className="material-symbols-outlined">settings</span>
         </Link>
-        <img
-          alt="User profile photo"
-          className="w-8 h-8 rounded-full border border-low-contrast object-cover cursor-pointer ml-2"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC3r4NH-0DVwbHzv2zt6JNsqz9iGgaFdIY61miQ1Y7NpAdP-Yc32-GLD98Lul-mXVTKasxPwRn4l9qBT_GffKhPxlFx7OqS26we2XYWkXTDUk1mlbbMAYjKzWcWZYB1w4yB4Q1lKq1DfXbaq-tv0fndEf_PwKOr8KW_Y-eEyV8Og0i1MnjjK1H1dHpeR0iubcQIDXkfvL8Yad7o8NVZUHJCQq7f0AKk9oGB6AmxgmoVSYqEVW3BR98sWuDf0aEAXkqp4co4uREhrc"
-        />
+        <Link href="/profile" className="ml-2 flex items-center">
+          <img
+            alt="User profile photo"
+            className="w-8 h-8 rounded-full border border-low-contrast object-cover cursor-pointer"
+            src={user?.photoURL || "https://lh3.googleusercontent.com/aida-public/AB6AXuDC3r4NH-0DVwbHzv2zt6JNsqz9iGgaFdIY61miQ1Y7NpAdP-Yc32-GLD98Lul-mXVTKasxPwRn4l9qBT_GffKhPxlFx7OqS26we2XYWkXTDUk1mlbbMAYjKzWcWZYB1w4yB4Q1lKq1DfXbaq-tv0fndEf_PwKOr8KW_Y-eEyV8Og0i1MnjjK1H1dHpeR0iubcQIDXkfvL8Yad7o8NVZUHJCQq7f0AKk9oGB6AmxgmoVSYqEVW3BR98sWuDf0aEAXkqp4co4uREhrc"}
+          />
+        </Link>
       </div>
     </header>
   );

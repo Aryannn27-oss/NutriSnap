@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import AppLayoutWrapper from "@/components/layout/AppLayoutWrapper";
+import { AuthProvider } from "@/components/features/auth/AuthContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,7 +33,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-canvas text-on-surface antialiased h-screen overflow-hidden flex">
-        <AppLayoutWrapper>{children}</AppLayoutWrapper>
+        <AuthProvider>
+          <AppLayoutWrapper>{children}</AppLayoutWrapper>
+        </AuthProvider>
       </body>
     </html>
   );

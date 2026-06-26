@@ -1,29 +1,64 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ProfilePage() {
-  const [firstName, setFirstName] = useState("Elias");
-  const [lastName, setLastName] = useState("Thorne");
-  const [email, setEmail] = useState("elias.thorne@example.com");
+  const { user, profileData, updateProfile } = useAuth();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [weight, setWeight] = useState(178);
   const [targetWeight, setTargetWeight] = useState(165);
   const [bodyFat, setBodyFat] = useState(18);
   const [bmi, setBmi] = useState(23.4);
 
-  const [dietaryPrefs, setDietaryPrefs] = useState(["High Protein", "Gluten-Free", "Low Carb"]);
+  const [dietaryPrefs, setDietaryPrefs] = useState<string[]>([]);
 
-  const handleAddPref = () => {
+  useEffect(() => {
+    if (profileData) {
+      setFirstName(profileData.firstName || "");
+      setLastName(profileData.lastName || "");
+      setEmail(profileData.email || "");
+      setWeight(profileData.weight || 178);
+      setTargetWeight(profileData.targetWeight || 165);
+      setBodyFat(profileData.bodyFat || 18);
+      setBmi(profileData.bmi || 23.4);
+      setDietaryPrefs(profileData.dietaryPrefs || ["High Protein", "Gluten-Free", "Low Carb"]);
+    }
+  }, [profileData]);
+
+  const handleAddPref = async () => {
     const newPref = prompt("Enter new dietary preference:");
     if (newPref) {
-      setDietaryPrefs([...dietaryPrefs, newPref]);
+      const updated = [...dietaryPrefs, newPref];
+      setDietaryPrefs(updated);
+      try {
+        await updateProfile({ dietaryPrefs: updated });
+      } catch (err) {
+        console.error("Add pref error:", err);
+      }
     }
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Profile changes saved successfully!");
+    try {
+      await updateProfile({
+        firstName,
+        lastName,
+        weight: Number(weight),
+        targetWeight: Number(targetWeight),
+        bodyFat: Number(bodyFat),
+        bmi: Number(bmi),
+      });
+      alert("Profile changes saved successfully!");
+    } catch (err: any) {
+      console.error("Save profile error:", err);
+      alert("Failed to save profile changes. Please try again.");
+    }
   };
 
   return (
@@ -34,8 +69,8 @@ export default function ProfilePage() {
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border border-low-contrast shrink-0 shadow-sm relative">
             <img
               className="w-full h-full object-cover"
-              alt="Elias Thorne headshot portrait"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLxIfcf4dcb3GKFYUmTxal-oJLtHI5fHvY_yyYaUJCG6KSVGTVtUt9NFJC1BSCVW1nXsdgJmr_kJ19gGcqthf9bqFTdfu_eNR8mtfW9COD14xAijciGYL2nFHDigsJtUCwroIkwFhKqlht2R3y-N4ZOuoG0EgZDiIMD3zJRtggiCdcHo8xNILjX_gQ6cmSH-XwKqANeW9inbN87yt2h2zECAfKgU_ZMsdRLL_cXLks40KXRFRbjeMcGRiAYKatOpteCT0W8vqvOuw"
+              alt="Profile avatar"
+              src={user?.photoURL || "https://lh3.googleusercontent.com/aida-public/AB6AXuDLxIfcf4dcb3GKFYUmTxal-oJLtHI5fHvY_yyYaUJCG6KSVGTVtUt9NFJC1BSCVW1nXsdgJmr_kJ19gGcqthf9bqFTdfu_eNR8mtfW9COD14xAijciGYL2nFHDigsJtUCwroIkwFhKqlht2R3y-N4ZOuoG0EgZDiIMD3zJRtggiCdcHo8xNILjX_gQ6cmSH-XwKqANeW9inbN87yt2h2zECAfKgU_ZMsdRLL_cXLks40KXRFRbjeMcGRiAYKatOpteCT0W8vqvOuw"}
             />
             <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-full"></div>
           </div>
@@ -47,10 +82,10 @@ export default function ProfilePage() {
               <span className="material-symbols-outlined text-[#D9A066] fill" style={{ fontSize: "18px" }}>
                 verified
               </span>
-              NutriSnap Premium Member
+              NutriSnap {profileData?.isPremium ? "Premium" : "Free"} Member
             </p>
             <p className="text-xs font-semibold text-slate-muted mt-2 uppercase tracking-wider">
-              Member since 2021
+              Member since {profileData?.memberSince || "2026"}
             </p>
           </div>
         </div>
@@ -150,7 +185,7 @@ export default function ProfilePage() {
               <div>
                 <div className="flex justify-between items-end mb-1">
                   <span className="text-sm font-semibold text-on-surface">Calories</span>
-                  <span className="text-sm text-slate-muted">2400 kcal</span>
+                  <span className="text-sm text-slate-muted">{profileData?.caloriesTarget || 2400} kcal</span>
                 </div>
                 <div className="w-full h-1 bg-border-low-contrast relative my-3">
                   <div className="h-1 bg-primary rounded-sm absolute top-[-1.5px] left-0" style={{ width: "80%" }}></div>
@@ -163,7 +198,7 @@ export default function ProfilePage() {
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-xs font-semibold text-on-surface">Protein</span>
                   </div>
-                  <span className="text-sm text-slate-muted block mb-2">180g</span>
+                  <span className="text-sm text-slate-muted block mb-2">{profileData?.proteinTarget || 180}g</span>
                   <div className="w-full h-1 bg-border-low-contrast relative my-3">
                     <div className="h-1 bg-[#D9A066] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "60%" }}></div>
                   </div>
@@ -173,7 +208,7 @@ export default function ProfilePage() {
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-xs font-semibold text-on-surface">Carbs</span>
                   </div>
-                  <span className="text-sm text-slate-muted block mb-2">200g</span>
+                  <span className="text-sm text-slate-muted block mb-2">{profileData?.carbsTarget || 200}g</span>
                   <div className="w-full h-1 bg-border-low-contrast relative my-3">
                     <div className="h-1 bg-[#C2CBB5] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "45%" }}></div>
                   </div>
@@ -183,7 +218,7 @@ export default function ProfilePage() {
                   <div className="flex justify-between items-end mb-1">
                     <span className="text-xs font-semibold text-on-surface">Fats</span>
                   </div>
-                  <span className="text-sm text-slate-muted block mb-2">70g</span>
+                  <span className="text-sm text-slate-muted block mb-2">{profileData?.fatsTarget || 70}g</span>
                   <div className="w-full h-1 bg-border-low-contrast relative my-3">
                     <div className="h-1 bg-[#fdad67] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "85%" }}></div>
                   </div>

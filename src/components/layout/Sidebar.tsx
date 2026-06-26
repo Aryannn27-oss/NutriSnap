@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { signOut, profileData } = useAuth();
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: "dashboard" },
@@ -18,7 +20,9 @@ export default function Sidebar() {
     <nav className="bg-canvas lg:flex flex-col p-6 space-y-4 fixed left-0 top-0 h-full w-64 border-r border-low-contrast z-40 hidden">
       <div className="mb-8">
         <h1 className="text-3xl font-display font-bold text-primary">NutriSnap</h1>
-        <p className="text-xs font-body text-on-surface-variant mt-1">Premium Edition</p>
+        <p className="text-xs font-body text-on-surface-variant mt-1">
+          {profileData?.isPremium ? "Premium Edition" : "Free Edition"}
+        </p>
       </div>
 
       <div className="flex flex-col space-y-2 flex-grow">
@@ -57,10 +61,13 @@ export default function Sidebar() {
           <span className="material-symbols-outlined">help</span>
           <span>Support</span>
         </a>
-        <Link href="/login" className="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-sm font-semibold">
+        <button 
+          onClick={() => signOut()}
+          className="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-sm font-semibold w-full text-left cursor-pointer focus:outline-none"
+        >
           <span className="material-symbols-outlined">logout</span>
           <span>Sign Out</span>
-        </Link>
+        </button>
       </div>
     </nav>
   );
