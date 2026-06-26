@@ -2,11 +2,11 @@
 
 ## What This Is
 
-NutriSnap is a premium AI-powered nutrition tracking web application. Designed for health-conscious professionals who value visual precision, it elevates nutrition tracking from a typical tech-centric tool into a quiet-luxury, editorial-style digital diary.
+NutriSnap is a premium, AI-powered nutrition tracking web application. Users can upload photos of their meals, which are processed by the Gemini API to identify foods, calories, and macros, and track their daily nutrition progress on a clean, minimal dashboard.
 
 ## Core Value
 
-Faithfully implement the premium Google Stitch editorial design system and visual hierarchy, ensuring an outstanding aesthetic and seamless user experience for the initial MVP modules.
+Empower users to track their nutrition instantly and effortlessly through AI image analysis on a clean, calm dashboard.
 
 ## Requirements
 
@@ -16,36 +16,46 @@ Faithfully implement the premium Google Stitch editorial design system and visua
 
 ### Active
 
-- [ ] Authentication Module (Clean visual layout, form validation, and session states)
-- [ ] Dashboard Module (Asymmetric layout, key calorie/macro numeric highlights in Source Serif 4, responsive grid)
-- [ ] Upload Meal Module (Drag-and-drop/camera simulation UI, premium typography, off-white card layout)
-- [ ] AI Result Screen Module (Editorial breakdown of meals, macro progression bars with thick-to-thin styling)
-- [ ] Meal History Module (Breathable but dense database log with thin lines, search/filter)
-- [ ] User Profile Module (Subscription tier, user preferences, aesthetic settings)
+- [ ] Initialize Next.js project structure and componentize core Google Stitch UI elements.
+- [ ] Implement user authentication via Firebase Auth.
+- [ ] Build meal image upload page integrated with Firebase Storage.
+- [ ] Connect Gemini API via Next.js Route Handlers to analyze meal images and extract food info, calories, and macros.
+- [ ] Save meal logs and daily metrics to Firebase Firestore.
+- [ ] Create dashboard, analytics, and history pages showing daily progress and weekly energy charts.
 
 ### Out of Scope
 
-- Live AI/ML Model Processing — We will simulate/mock nutrition breakdown results using deterministic TS mocks to focus purely on faithful UI replication.
-- Real-time DB Sync & API write-back — Initial phases will use Zustand and mock stores; DB persistence is out of scope until explicitly requested.
-- Custom fonts installation — We will load standard Inter and Google Web Fonts (Source Serif 4) via Next.js Font loading.
+- [ ] Multi-user sharing and social feeds — Deferred for MVP to focus on single-user tracking.
+- [ ] Custom custom-trained food classification model — Out of scope; Gemini API is preferred for general food identification.
+- [ ] Offline local food database — Excluded for simplicity; app is online-only using cloud backend.
 
 ## Context
 
-- Single source of truth for aesthetics is `e:\antigravity\Nutrisnap\DESIGN.md`.
-- No glassmorphism, no synth gradients, and no rounded button pill shapes. Use solid off-white backgrounds, thin outlines, and 4px (standard) or 8px (large) radii.
+We are starting with static, raw UI design screens generated from Google Stitch inside the `stitch_nutrisnap_premium_nutrition_tracker` folder. We will build a Next.js web application utilizing Tailwind CSS v4 and Firebase, deploying to Vercel.
 
 ## Constraints
 
-- **Design System**: Strict adherence to Google Stitch `design.md` (colors: deep forest green `#061b0e`, warm clay `#8c4f10`, muted sage `#bdce89`, off-white canvas `#fbf8ff`).
-- **Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS, shadcn/ui, Supabase, TanStack Query, Zustand, React Hook Form, Zod.
-- **Responsiveness**: Complete support across mobile, tablet, and desktop viewports.
+- **Tech Stack**: Next.js + React + TypeScript + Tailwind CSS v4.
+- **Backend**: Firebase (Auth, Firestore, Storage) with Next.js Route Handlers or Server Actions.
+- **AI API**: Gemini API.
+- **Architecture**: Strict folder structure under `src/` to separate concerns:
+  - `src/components/ui/` for base elements
+  - `src/components/layout/` for layout/navigation
+  - `src/components/features/` for domain-specific features
+  - `src/lib/` for SDK initialization (Firebase/Gemini)
+  - `src/services/` for API calls
+  - `src/types/` for TypeScript types/interfaces
+  - `src/hooks/` for custom hooks
+  - `src/utils/` for helper utilities
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Next.js App Router | Modern React 19 features, clean directory-based routing | — Pending |
-| Mock data stores | Frontend-first development guidelines before backend integration | — Pending |
+| Next.js App Router | React-based server/client routing, deployment ease on Vercel. | — Pending |
+| Tailwind CSS v4 | CSS-first configuration, requested by user and supported natively in Next.js 15. | — Pending |
+| Gemini API via Server Actions / Route Handlers | Prevents API key exposure to the client-side browser. | — Pending |
+| Vertical MVP structure | Recommended to deliver functioning core features slice by slice. | — Pending |
 
 ## Evolution
 
