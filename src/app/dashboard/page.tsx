@@ -1,8 +1,11 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
 
 export default function Dashboard() {
+  const [showNotifications, setShowNotifications] = useState(false);
+
   return (
     <main className="flex-1 p-6 md:p-16 bg-canvas w-full max-w-7xl mx-auto">
       <div className="flex flex-col xl:flex-row gap-6">
@@ -15,10 +18,19 @@ export default function Dashboard() {
               <p className="text-lg text-on-surface-variant mt-1">Thursday, October 24</p>
             </div>
             {/* Desktop Actions */}
-            <div className="hidden lg:flex space-x-4 items-center text-on-surface-variant">
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
+            <div className="hidden lg:flex space-x-4 items-center text-on-surface-variant relative">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors focus:outline-none p-1"
+              >
                 notifications
-              </span>
+              </button>
+              {showNotifications && (
+                <div className="absolute right-24 top-12 w-64 bg-white border border-low-contrast rounded shadow-lg p-4 z-50 text-left">
+                  <h4 className="text-sm font-semibold text-primary mb-2">Notifications</h4>
+                  <p className="text-xs text-on-surface-variant font-normal">You're all caught up! No new notifications.</p>
+                </div>
+              )}
               <Link href="/settings" className="flex items-center">
                 <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
                   settings

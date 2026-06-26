@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Header() {
+  const [showNotifications, setShowNotifications] = useState(false);
+
   return (
     <header className="bg-surface dark:bg-background border-b border-low-contrast flex justify-between items-center w-full px-6 md:px-16 h-16 max-w-7xl mx-auto sticky top-0 z-40 shadow-sm md:shadow-none">
       <div className="flex items-center gap-6">
@@ -38,9 +41,20 @@ export default function Header() {
             type="text"
           />
         </div>
-        <button className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-1">
-          <span className="material-symbols-outlined">notifications</span>
-        </button>
+        <div className="relative flex items-center">
+          <button 
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-1 focus:outline-none"
+          >
+            <span className="material-symbols-outlined">notifications</span>
+          </button>
+          {showNotifications && (
+            <div className="absolute right-0 top-10 w-64 bg-white border border-low-contrast rounded shadow-lg p-4 z-50 text-left">
+              <h4 className="text-sm font-semibold text-primary mb-2">Notifications</h4>
+              <p className="text-xs text-on-surface-variant font-normal">You're all caught up! No new notifications.</p>
+            </div>
+          )}
+        </div>
         <Link href="/settings" className="text-on-surface-variant hover:text-primary transition-colors p-1">
           <span className="material-symbols-outlined">settings</span>
         </Link>
