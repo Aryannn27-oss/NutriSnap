@@ -41,9 +41,9 @@ export default function Header() {
         <button className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-1">
           <span className="material-symbols-outlined">notifications</span>
         </button>
-        <button className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-1">
+        <Link href="/settings" className="text-on-surface-variant hover:text-primary transition-colors p-1">
           <span className="material-symbols-outlined">settings</span>
-        </button>
+        </Link>
         <img
           alt="User profile photo"
           className="w-8 h-8 rounded-full border border-low-contrast object-cover cursor-pointer ml-2"
