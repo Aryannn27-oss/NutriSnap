@@ -57,10 +57,10 @@ export default function Sidebar() {
           <span className="material-symbols-outlined">help</span>
           <span>Support</span>
         </a>
-        <a href="#sign-out" className="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-sm font-semibold">
+        <Link href="/login" className="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-sm font-semibold">
           <span className="material-symbols-outlined">logout</span>
           <span>Sign Out</span>
-        </a>
+        </Link>
       </div>
     </nav>
   );

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/layout/Sidebar";
-import Header from "@/components/layout/Header";
+import AppLayoutWrapper from "@/components/layout/AppLayoutWrapper";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,22 +31,8 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-canvas text-on-surface antialiased h-screen overflow-hidden flex flex-col lg:flex-row">
-        {/* Sidebar for Desktop */}
-        <Sidebar />
-
-        {/* Content Wrapper */}
-        <div className="flex-1 flex flex-col h-full overflow-hidden lg:pl-64">
-          {/* Header (Top Nav) - Hidden on desktop, sidebar handles branding */}
-          <div className="lg:hidden">
-            <Header />
-          </div>
-
-          {/* Scrollable Page Container */}
-          <div className="flex-1 overflow-y-auto w-full">
-            {children}
-          </div>
-        </div>
+      <body className="bg-canvas text-on-surface antialiased h-screen overflow-hidden flex">
+        <AppLayoutWrapper>{children}</AppLayoutWrapper>
       </body>
     </html>
   );
