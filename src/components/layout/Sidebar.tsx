@@ -10,7 +10,6 @@ export default function Sidebar() {
     { name: "Dashboard", href: "/dashboard", icon: "dashboard" },
     { name: "Meal Log", href: "/meals", icon: "restaurant" },
     { name: "Analytics", href: "/analytics", icon: "insights" },
-    { name: "Recipes", href: "/recipes", icon: "menu_book" },
     { name: "Goals", href: "/goals", icon: "track_changes" },
     { name: "Account", href: "/profile", icon: "person" },
   ];
