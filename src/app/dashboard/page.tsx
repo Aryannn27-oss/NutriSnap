@@ -19,14 +19,18 @@ export default function Dashboard() {
               <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
                 notifications
               </span>
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
-                settings
-              </span>
-              <img
-                className="w-10 h-10 rounded-full object-cover border border-low-contrast cursor-pointer"
-                alt="Profile"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuByD8iqD0-wsiqknttzQBkMDaEW4yBTHhOvIBHkcB_G1FfnK7pyUqbobcM_D-rUN9TlIb-g3V2571HgZsd2MEkFSBZSxzqan9CiYI84DIprgLbtuAo2UpsEDAv3XgQs4gBit42MgWndn_Zv5UEsRBL3o8YvUjCacPGIeK-y2wWiOIpcVwh8R5ruuLV3i4yQnhgJ2vFRwcx7zHjkrlHo8VTaOj8n0BfHW0moudDX02m4Dp7U5SqUSCHXxvRR91M6JM2roSc9ApcpJKA"
-              />
+              <Link href="/settings" className="flex items-center">
+                <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
+                  settings
+                </span>
+              </Link>
+              <Link href="/profile" className="flex items-center">
+                <img
+                  className="w-10 h-10 rounded-full object-cover border border-low-contrast cursor-pointer"
+                  alt="Profile"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuByD8iqD0-wsiqknttzQBkMDaEW4yBTHhOvIBHkcB_G1FfnK7pyUqbobcM_D-rUN9TlIb-g3V2571HgZsd2MEkFSBZSxzqan9CiYI84DIprgLbtuAo2UpsEDAv3XgQs4gBit42MgWndn_Zv5UEsRBL3o8YvUjCacPGIeK-y2wWiOIpcVwh8R5ruuLV3i4yQnhgJ2vFRwcx7zHjkrlHo8VTaOj8n0BfHW0moudDX02m4Dp7U5SqUSCHXxvRR91M6JM2roSc9ApcpJKA"
+                />
+              </Link>
             </div>
           </div>
 
