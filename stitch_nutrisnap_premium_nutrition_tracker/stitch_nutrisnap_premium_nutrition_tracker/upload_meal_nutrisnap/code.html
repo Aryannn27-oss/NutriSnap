@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NutriSnap - Meal Upload &amp; Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {canvas: "#F9F9F7", "primary-fixed": "#d0e9d4", "surface-container-high": "#e8e7f4", "error-container": "#ffdad6", "inverse-on-surface": "#f1effc", "clay-light": "#D9A066", "surface-container-lowest": "#ffffff", surface: "#fbf8ff", "surface-container": "#eeecfa", "on-tertiary": "#ffffff", "on-primary": "#ffffff", "secondary-fixed": "#ffdcc2", "on-primary-container": "#819986", "primary-container": "#1b3022", "on-error-container": "#93000a", outline: "#737973", "surface-container-highest": "#e2e1ee", background: "#fbf8ff", "on-tertiary-fixed-variant": "#3e4c16", "sage-light": "#C2CBB5", "surface-bright": "#fbf8ff", primary: "#061b0e", tertiary: "#121a00", "on-error": "#ffffff", "on-secondary-container": "#763f00", "outline-variant": "#c3c8c1", "on-secondary": "#ffffff", "on-primary-fixed-variant": "#364c3c", error: "#ba1a1a", "inverse-primary": "#b4cdb8", "surface-tint": "#4d6453", "tertiary-container": "#243000", "tertiary-fixed": "#d9eaa3", "border-low-contrast": "#E2E2DF", "on-background": "#1a1b24", "inverse-surface": "#2f3039", "secondary-container": "#fdad67", "on-secondary-fixed-variant": "#6d3a00", "on-tertiary-fixed": "#161f00", "on-primary-fixed": "#0b2013", "surface-variant": "#e2e1ee", secondary: "#8c4f10", "tertiary-fixed-dim": "#bdce89", "on-surface-variant": "#434843", "surface-dim": "#dad9e5", "on-tertiary-container": "#8a9a5b", "on-surface": "#1a1b24", "primary-fixed-dim": "#b4cdb8", "surface-container-low": "#f4f2ff", "on-secondary-fixed": "#2e1500", "secondary-fixed-dim": "#ffb77b", "slate-muted": "#4A4D55"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {unit: "4px", "margin-desktop": "64px", "margin-mobile": "16px", gutter: "24px", "max-width-content": "1280px"}, fontFamily: {"headline-md": ["\"Source Serif 4\""], "headline-xl": ["\"Source Serif 4\""], "headline-lg": ["\"Source Serif 4\""], "body-md": ["Inter"], "label-md": ["Inter"], "body-lg": ["Inter"], "headline-lg-mobile": ["\"Source Serif 4\""], "label-sm": ["Inter"], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-xl": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", fontWeight: "600"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "500"}]}}}};</script>
+<style>
+        body {
+            background-color: theme('colors.canvas');
+            color: theme('colors.on-surface');
+        }
+        
+        .drag-active {
+            border-color: theme('colors.primary');
+            background-color: theme('colors.surface-container');
+        }
+        
+        /* Custom scrollbar for editing area */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.border-low-contrast');
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-background border-b border-low-contrast dark:border-outline-variant flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-max-width-content mx-auto sticky top-0 z-40 shadow-sm md:shadow-none">
+<div class="flex items-center gap-6">
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed cursor-pointer">NutriSnap</h1>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Journal</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 text-label-md font-label-md" href="#">Kitchen</a>
+<a class="text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Insights</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative text-on-surface-variant">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2" style="font-size: 18px;">search</span>
+<input class="bg-surface-container-low border border-border-low-contrast rounded-full pl-9 pr-4 py-1 text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-48" placeholder="Search..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80 transition-all p-1">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80 transition-all p-1">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="User profile photo" class="w-8 h-8 rounded-full border border-border-low-contrast object-cover cursor-pointer ml-2" data-alt="A high-quality, professional headshot of a person, serving as a user profile photo. The lighting is soft and natural, fitting the sophisticated, editorial modernism aesthetic of the NutriSnap brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC3r4NH-0DVwbHzv2zt6JNsqz9iGgaFdIY61miQ1Y7NpAdP-Yc32-GLD98Lul-mXVTKasxPwRn4l9qBT_GffKhPxlFx7OqS26we2XYWkXTDUk1mlbbMAYjKzWcWZYB1w4yB4Q1lKq1DfXbaq-tv0fndEf_PwKOr8KW_Y-eEyV8Og0i1MnjjK1H1dHpeR0iubcQIDXkfvL8Yad7o8NVZUHJCQq7f0AKk9oGB6AmxgmoVSYqEVW3BR98sWuDf0aEAXkqp4co4uREhrc"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center py-8 md:py-12 px-margin-mobile md:px-margin-desktop w-full max-w-max-width-content mx-auto">
+<!-- Header Section -->
+<div class="w-full mb-8 flex justify-between items-end">
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Log Meal</p>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">Analyze Your Plate</h2>
+</div>
+<div class="hidden md:block">
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-primary flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">history</span>
+                    Recent Uploads
+                </button>
+</div>
+</div>
+<!-- Split Layout Container -->
+<div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter bg-surface-container-lowest border border-border-low-contrast rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(25,26,35,0.06)] min-h-[600px]">
+<!-- Left Side: Upload Area (Cols 1-5) -->
+<div class="lg:col-span-5 p-6 md:p-8 flex flex-col border-b lg:border-b-0 lg:border-r border-border-low-contrast bg-canvas relative">
+<div class="mb-6">
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface">Capture Image</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Upload a clear photo of your meal for AI macro estimation.</p>
+</div>
+<!-- Drag and Drop Zone -->
+<div class="flex-grow flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-lowest hover:bg-surface-container transition-colors cursor-pointer relative overflow-hidden group min-h-[300px]" id="drop-zone">
+<!-- Empty State Content -->
+<div class="text-center p-6 z-10 flex flex-col items-center">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center mb-4 text-primary-container group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">add_a_photo</span>
+</div>
+<p class="text-body-lg font-body-lg font-medium text-on-surface mb-1">Click to upload or drag image</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">JPEG, PNG, HEIC up to 10MB</p>
+</div>
+<!-- Hidden File Input -->
+<input accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" id="file-input" type="file"/>
+</div>
+<!-- Helper text below upload -->
+<div class="mt-6 flex items-start gap-2 bg-surface-container-low p-3 rounded-lg border border-border-low-contrast">
+<span class="material-symbols-outlined text-sage-light mt-0.5" style="font-size: 18px;">lightbulb</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant leading-relaxed">
+                        For best results, ensure your meal is well-lit and all items are visible. Avoid extreme close-ups or angles.
+                    </p>
+</div>
+</div>
+<!-- Right Side: AI Analysis & Details (Cols 6-12) -->
+<div class="lg:col-span-7 flex flex-col bg-surface-container-lowest relative">
+<!-- Empty State for Right Side (Visible initially) -->
+<div class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-surface-container-lowest z-10 text-center" id="analysis-empty">
+<span class="material-symbols-outlined text-outline-variant mb-4" style="font-size: 48px;">analytics</span>
+<h3 class="text-body-lg font-body-lg font-medium text-on-surface mb-2">Awaiting Image</h3>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-sm">Upload a meal photo to see AI-detected ingredients, estimated portions, and nutritional breakdown.</p>
+</div>
+<!-- Analysis Content (Hidden initially, simulated for design) -->
+<div class="flex-grow flex flex-col opacity-0 pointer-events-none transition-opacity duration-300" id="analysis-content">
+<!-- Header -->
+<div class="px-6 md:px-8 py-5 border-b border-border-low-contrast flex justify-between items-center bg-surface sticky top-0 z-10">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Analysis Results</h3>
+<p class="text-label-sm font-label-sm text-primary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px; font-variation-settings: 'FILL' 1;">check_circle</span>
+                                High confidence scan
+                            </p>
+</div>
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 border border-border-low-contrast px-3 py-1.5 rounded bg-canvas">
+<span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+                             Manual Entry
+                        </button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-grow overflow-y-auto p-6 md:p-8 space-y-8">
+<!-- Macro Summary Cards -->
+<section>
+<h4 class="text-label-md font-label-md text-on-surface-variant mb-3 uppercase tracking-wider">Estimated Macros</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Calorie Card -->
+<div class="bg-canvas border border-border-low-contrast p-4 rounded-lg flex flex-col justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Calories</span>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="text-headline-lg font-headline-lg text-primary">640</span>
+<span class="text-label-sm font-label-sm text-outline">kcal</span>
+</div>
+</div>
+<!-- Protein Card -->
+<div class="bg-surface border border-border-low-contrast p-4 rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1.5 h-full bg-clay-light"></div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Protein</span>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="text-headline-lg font-headline-lg text-on-surface">42</span>
+<span class="text-label-sm font-label-sm text-outline">g</span>
+</div>
+</div>
+<!-- Carbs Card -->
+<div class="bg-surface border border-border-low-contrast p-4 rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1.5 h-full bg-sage-light"></div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Carbs</span>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="text-headline-lg font-headline-lg text-on-surface">58</span>
+<span class="text-label-sm font-label-sm text-outline">g</span>
+</div>
+</div>
+<!-- Fats Card -->
+<div class="bg-surface border border-border-low-contrast p-4 rounded-lg flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1.5 h-full bg-secondary-fixed"></div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Fats</span>
+<div class="mt-2 flex items-baseline gap-1">
+<span class="text-headline-lg font-headline-lg text-on-surface">24</span>
+<span class="text-label-sm font-label-sm text-outline">g</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Detected Items List -->
+<section>
+<div class="flex justify-between items-end mb-3">
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Detected Items</h4>
+<span class="text-label-sm font-label-sm text-outline">Tap to edit portions</span>
+</div>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="group bg-surface-container-lowest border border-border-low-contrast hover:border-primary transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-canvas flex items-center justify-center border border-border-low-contrast">
+<span class="material-symbols-outlined text-outline" style="font-size: 20px;">set_meal</span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-medium text-on-surface">Grilled Salmon</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">1 fillet (approx 6oz)</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-body-md font-body-md text-on-surface">350 kcal</p>
+<p class="text-label-sm font-label-sm text-clay-light font-medium">34g Protein</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group bg-surface-container-lowest border border-border-low-contrast hover:border-primary transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-canvas flex items-center justify-center border border-border-low-contrast">
+<span class="material-symbols-outlined text-outline" style="font-size: 20px;">eco</span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-medium text-on-surface">Roasted Asparagus</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">1 cup (approx 134g)</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-body-md font-body-md text-on-surface">40 kcal</p>
+<p class="text-label-sm font-label-sm text-sage-light font-medium">7g Carbs</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group bg-surface-container-lowest border border-border-low-contrast hover:border-primary transition-colors rounded-lg p-4 flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-canvas flex items-center justify-center border border-border-low-contrast">
+<span class="material-symbols-outlined text-outline" style="font-size: 20px;">rice_bowl</span>
+</div>
+<div>
+<p class="text-body-md font-body-md font-medium text-on-surface">Quinoa Base</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">1/2 cup (approx 92g)</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-body-md font-body-md text-on-surface">111 kcal</p>
+<p class="text-label-sm font-label-sm text-sage-light font-medium">20g Carbs</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Add Item Button -->
+<button class="w-full py-3 border border-dashed border-outline-variant text-on-surface-variant rounded-lg hover:border-primary hover:text-primary hover:bg-surface-container transition-colors flex items-center justify-center gap-2 text-label-md font-label-md">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                                    Add Missing Item
+                                </button>
+</div>
+</section>
+<!-- Contextual Settings -->
+<section>
+<h4 class="text-label-md font-label-md text-on-surface-variant mb-3 uppercase tracking-wider">Meal Context</h4>
+<div class="flex gap-4">
+<div class="flex-1 relative">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Meal Type</label>
+<select class="w-full bg-canvas border border-border-low-contrast rounded-lg px-3 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+<option>Dinner</option>
+<option>Lunch</option>
+<option>Breakfast</option>
+<option>Snack</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-8 pointer-events-none text-outline">expand_more</span>
+</div>
+<div class="flex-1 relative">
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Time Logged</label>
+<input class="w-full bg-canvas border border-border-low-contrast rounded-lg px-3 py-2 text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" type="time" value="19:30"/>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Action -->
+<div class="p-6 md:p-8 border-t border-border-low-contrast bg-canvas mt-auto">
+<button class="w-full bg-primary text-on-primary rounded-lg py-3 text-label-md font-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2 shadow-[0px_4px_20px_rgba(25,26,35,0.06)]">
+<span class="material-symbols-outlined" style="font-size: 20px;">bookmark_check</span>
+                            Confirm to Journal
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 pb-safe bg-surface border-t border-border-low-contrast z-50 rounded-t-xl shadow-sm">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-label-sm font-label-sm mt-1">Journal</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+<span class="text-label-sm font-label-sm mt-1">Log</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-label-sm font-label-sm mt-1">Trends</span>
+</a>
+</nav>
+<!-- Interaction Script for Simulation -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const emptyState = document.getElementById('analysis-empty');
+            const contentState = document.getElementById('analysis-content');
+
+            // Highlight drop zone
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropZone.classList.add('drag-active');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e)</script></body></html>

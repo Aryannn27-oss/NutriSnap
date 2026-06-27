@@ -2,109 +2,114 @@
 
 ## Overview
 
-This roadmap defines the implementation plan for the NutriSnap MVP frontend using Next.js 15, React 19, TypeScript, and Tailwind CSS. The design system from `design.md` (Editorial Modernism style with deep forest green, warm clay, sage-muted, and off-white neutrals) will be faithfully implemented. The phases are structured sequentially, with frontend implementation and mock data models preceding any backend or real AI database integrations.
+This roadmap defines the 6-phase development path for NutriSnap, a premium AI-powered nutrition tracker. We follow a Vertical MVP structure, starting with styling and screen layout foundations, implementing Firebase security and user session controls, developing Gemini AI Vision-assisted logs, and completing the dashboard experience.
 
 ## Phases
 
-- [ ] **Phase 1: Environment Setup & Authentication** - Project scaffolding, shadcn/ui custom theme integration, and mock Auth forms.
-- [ ] **Phase 2: Dashboard & Macro Visualization** - Asymmetric dashboard layout, large display metrics, and thick-to-thin macro progress indicators.
-- [ ] **Phase 3: Upload Meal Flow** - Drag-and-drop/camera upload simulator UI and sage-colored processing screen.
-- [ ] **Phase 4: AI Result Breakdown** - Editorial nutrient breakdown, recommended vs actual target charts, and confirmation action.
-- [ ] **Phase 5: Meal History Timeline** - Searchable, filtered database list of logged meals and details inspector.
-- [ ] **Phase 6: User Profile & Goals** - Target calorie/macro settings configuration and premium billing design screen.
-
----
+- [x] **Phase 1: Initialize Next.js & Componentize Stitch UI** - Initialize framework, setup Tailwind v4, layout core components, and import raw mockups.
+- [x] **Phase 2: Firebase Auth & Database Infrastructure** - Build Firebase authentication routes and Firestore schema.
+- [x] **Phase 3: Firebase Storage & Gemini AI Vision Integration** - Implement photo upload pipeline and secure Gemini server endpoints.
+- [x] **Phase 4: Meal Logging, Editing & History Management** - Build full CRUD logic for saved meals and make meal history editable and reliable.
+- [x] **Phase 5: Bento Dashboard & Metrics** - Render real-time dashboard progress metrics and today's meal summaries.
+- [x] **Phase 6: Final Polish & Deployment** - Secure DB rules, optimize layouts, and host on Vercel.
 
 ## Phase Details
 
-### Phase 1: Environment Setup & Authentication
-**Goal**: Initialize the Next.js project with design system configuration and implement interactive mock Auth UI.
+### Phase 1: Initialize Next.js & Componentize Stitch UI
+**Goal**: Core design system setup and componentizing Google Stitch mockup screens.
+**Mode**: mvp
 **Depends on**: Nothing
-**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04
+**Requirements**: [LAYT-01, LAYT-02, LAYT-03, LAYT-04]
 **Success Criteria**:
-  1. Next.js 15 dev server compiles successfully with Tailwind configured to use colors/fonts from `design.md`.
-  2. Input fields show a 1px border transitioning to deep forest green `#061b0e` on focus.
-  3. User can switch between Sign In and Sign Up views, with form validation errors showing on invalid inputs.
-  4. Successful submission changes auth state in a Zustand store and redirects the user.
+  1. Next.js 15 project initialized with App Router.
+  2. Tailwind CSS v4 PostCSS configured and styles imported.
+  3. App shell sidebar layout renders successfully.
+  4. Core dashboard, settings, login, and upload views successfully componentized.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Initialize Next.js project, install dependencies, configure Tailwind config and global css (Source Serif 4, Inter).
-- [ ] 01-02: Configure shadcn/ui components (Button, Input, Form) mapping to our design system (4px border-radius, thin borders).
-- [ ] 01-03: Implement Zustand store for auth session and create the Sign In / Sign Up page layouts.
+- [x] 01-01: Initialize Next.js 15 framework and folder layout
+- [x] 01-02: Componentize navigation shell and globals
+- [x] 01-03: Implement Stitch page structures as React views
 
-### Phase 2: Dashboard & Macro Visualization
-**Goal**: Build the asymmetric dashboard view displaying calorie totals, macro breakdowns, and historical weekly charts.
+### Phase 2: Firebase Auth & Database Infrastructure
+**Goal**: User authentication structure and Firestore instance config.
+**Mode**: mvp
 **Depends on**: Phase 1
-**Requirements**: DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
+**Requirements**: [AUTH-01, AUTH-02, AUTH-03, AUTH-04]
 **Success Criteria**:
-  1. Desktop dashboard features an asymmetric two-column (main content + sidebar) layout Reminiscent of a magazine spread.
-  2. Large calorie and macro totals are rendered using the display font Source Serif 4.
-  3. Progress bars show thick-to-thin layout (1px grey track, 4px colored progress bar).
-  4. Recent meals list items are separated by a 1px border without drop shadows.
-**Plans**: 3 plans
+  1. Firebase SDK client initialized securely inside `src/lib/firebase.ts`.
+  2. Users can register, log in, and log out with email/password.
+  3. Authentication session persists correctly on refresh.
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Create the responsive asymmetric main dashboard page structure (12-column grid, 24px gutters).
-- [ ] 02-02: Build visual summary tiles for calorie counts and daily nutrient trackers.
-- [ ] 02-03: Integrate simple weekly macro progress charts using TanStack/Recharts or pure CSS grid charts.
+- [x] 02-01: Setup Firebase client app and config credentials
+- [x] 02-02: Build Auth routes, state wrapper, and context hook
 
-### Phase 3: Upload Meal Flow
-**Goal**: Implement the user upload flow utilizing drag-and-drop or simulated camera inputs.
+### Phase 3: Firebase Storage & Gemini AI Vision Integration
+**Goal**: Secure photo logging connected to Gemini vision API.
+**Mode**: mvp
 **Depends on**: Phase 2
-**Requirements**: UPLD-01, UPLD-02, UPLD-03
+**Requirements**: [IMGL-01, IMGL-02, IMGL-03, AIAN-01, AIAN-02, AIAN-03, AIAN-04]
 **Success Criteria**:
-  1. Modal or dedicated section loads with drag-and-drop area.
-  2. Interactive upload simulation triggers a sage-colored processing screen.
+  1. Users can upload food images to Firebase Storage.
+  2. Next.js Server Route `/api/analyze` communicates securely with Gemini API.
+  3. Gemini returns formatted JSON containing food lists, estimated weights, and macros.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Build the Upload Meal card UI conforming to off-white and green outlines.
-- [ ] 03-02: Implement image picker simulation, mobile camera mock view, and Sage processing spinner animation.
+- [x] 03-01: Client-Side Compression & Cloudinary Direct Upload
+- [x] 03-02: Gemini API Integration & AI Review Screen
 
-### Phase 4: AI Result Breakdown
-**Goal**: Display simulated AI nutrition results with macro comparison views and confirmation screens.
+### Phase 4: Meal Logging, Editing & History Management
+**Goal**: Build full CRUD logic for saved meals and make meal history editable and reliable.
+**Mode**: mvp
 **Depends on**: Phase 3
-**Requirements**: RSLT-01, RSLT-02, RSLT-03
+**Requirements**: [MEAL-01, MEAL-02, MEAL-03, MEAL-04]
 **Success Criteria**:
-  1. UI displays calculated metrics (calories, carbs, protein, fat) for the simulated image.
-  2. Nutrient breakdown uses annotations rendered in Source Serif 4.
-  3. Confirm button logs the meal into the Zustand store and returns to the dashboard.
-**Plans**: 2 plans
+  1. Meal results (macros, food names, image URL) save successfully in Firestore after user confirmation.
+  2. User can override meal name, portion size, macros, and meal type before saving.
+  3. User can edit saved meals later from the Meal Log.
+  4. User can delete meals with confirmation.
+  5. Dashboard totals recalculate immediately after any add/edit/delete operation.
+  6. Firestore records store both the original AI output and final user-confirmed data.
+**Plans**: 4 plans
 
 Plans:
-- [ ] 04-01: Build the AI Result page layout with meal photo container and nutrient table list.
-- [ ] 04-02: Implement recommended vs actual target comparison bars and confirm-to-log action triggers.
+- [x] 04-01: Write Firestore CRUD functions for meals
+- [x] 04-02: Implement meal item edit sheet / detail drawer UI
+- [x] 04-03: Add delete confirmation and optimistic updates
+- [x] 04-04: Sync dashboard totals after meal changes
 
-### Phase 5: Meal History Timeline
-**Goal**: Build the meal logging timeline database screen with filters and a detail modal.
+### Phase 5: Bento Dashboard & Metrics
+**Goal**: Aggregated real-time metrics cards and daily food logs.
+**Mode**: mvp
 **Depends on**: Phase 4
-**Requirements**: HIST-01, HIST-02, HIST-03
+**Requirements**: [DASH-01, DASH-02, DASH-03]
 **Success Criteria**:
-  1. History page renders past meals in a clean list separated by thin borders.
-  2. User can search items by title and filter by meal category.
-  3. Clicking a meal opens a detailed popup containing complete mock nutrition data.
-**Plans**: 3 plans
-
-Plans:
-- [ ] 05-01: Create the timeline list page layout using 1px border lines and no shadows.
-- [ ] 05-02: Add search text filter and type selectors (Breakfast, Lunch, Dinner, Snack).
-- [ ] 05-03: Implement the modal popup or detailed side drawer to inspect individual meal logs.
-
-### Phase 6: User Profile & Goals
-**Goal**: Implement user settings forms and subscription tier branding.
-**Depends on**: Phase 5
-**Requirements**: PROF-01, PROF-02, PROF-03
-**Success Criteria**:
-  1. Profile form allows updating display name and saving daily goals.
-  2. Subscription status shows premium badge design with warm clay accenting.
+  1. Dashboard calorie, protein, carb, and fat cards calculate daily summary.
+  2. Dashboard reactively reflects meal additions/removals.
+  3. Today's meals display visually under bento overview cards.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: Build the profile information and nutritional target form views.
-- [ ] 06-02: Create the billing and subscription tier upgrade screens.
+- [x] 05-01: Create daily log query hook and macros arithmetic helper
+- [x] 05-02: Render live progress metrics cards on dashboard
 
----
+### Phase 6: Final Polish & Deployment
+**Goal**: Security hardening and hosting deployment.
+**Mode**: mvp
+**Depends on**: Phase 5
+**Success Criteria**:
+  1. Firestore security rules prevent unauthorized multi-tenant queries.
+  2. Next.js app builds cleanly for production.
+  3. Site hosts successfully on Vercel.
+**Plans**: 2 plans
+
+Plans:
+- [x] 06-01: Write Firestore/Storage security rules
+- [x] 06-02: Optimize assets, build project, and host live
 
 ## Progress
 
@@ -113,9 +118,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Environment Setup & Auth | 0/3 | Not started | - |
-| 2. Dashboard & Macro Viz | 0/3 | Not started | - |
-| 3. Upload Meal Flow | 0/2 | Not started | - |
-| 4. AI Result Breakdown | 0/2 | Not started | - |
-| 5. Meal History Timeline | 0/3 | Not started | - |
-| 6. User Profile & Goals | 0/2 | Not started | - |
+| 1. Initialize Next.js & Componentize Stitch UI | 3/3 | Completed | 2026-06-26 |
+| 2. Firebase Auth & Database Infrastructure | 2/2 | Completed | 2026-06-27 |
+| 3. Firebase Storage & Gemini AI Vision Integration | 2/2 | Completed | 2026-06-27 |
+| 4. Meal Logging, Editing & History Management | 4/4 | Completed | 2026-06-27 |
+| 5. Bento Dashboard & Metrics | 2/2 | Completed | 2026-06-27 |
+| 6. Final Polish & Deployment | 2/2 | Completed | 2026-06-27 |

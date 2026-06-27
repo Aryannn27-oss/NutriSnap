@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import ProtectedRoute from "./ProtectedRoute";
+import PageTransition from "./PageTransition";
 
 export default function AppLayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -13,7 +14,9 @@ export default function AppLayoutWrapper({ children }: { children: React.ReactNo
     return (
       <ProtectedRoute>
         <div className="flex-1 overflow-y-auto w-full">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </div>
       </ProtectedRoute>
     );
@@ -34,7 +37,9 @@ export default function AppLayoutWrapper({ children }: { children: React.ReactNo
 
           {/* Scrollable Page Container */}
           <div className="flex-1 overflow-y-auto w-full">
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
           </div>
         </div>
       </div>

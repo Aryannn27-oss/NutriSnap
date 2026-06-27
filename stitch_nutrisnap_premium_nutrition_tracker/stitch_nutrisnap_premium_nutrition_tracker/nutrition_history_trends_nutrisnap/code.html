@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nutrition Trends - NutriSnap</title>
+<!-- Google Fonts: Inter & Source Serif 4 -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-error-container": "#93000a", "tertiary-container": "#243000", "primary-fixed": "#d0e9d4", outline: "#737973", "error-container": "#ffdad6", "on-secondary-fixed": "#2e1500", "on-error": "#ffffff", "tertiary-fixed-dim": "#bdce89", "tertiary-fixed": "#d9eaa3", "surface-container": "#eeecfa", "on-secondary-container": "#763f00", "surface-container-high": "#e8e7f4", "sage-light": "#C2CBB5", "surface-tint": "#4d6453", "outline-variant": "#c3c8c1", "on-secondary": "#ffffff", primary: "#061b0e", "inverse-surface": "#2f3039", "secondary-fixed-dim": "#ffb77b", "slate-muted": "#4A4D55", "secondary-fixed": "#ffdcc2", "on-tertiary": "#ffffff", surface: "#fbf8ff", "clay-light": "#D9A066", "on-surface-variant": "#434843", "on-primary-fixed-variant": "#364c3c", "inverse-primary": "#b4cdb8", "border-low-contrast": "#E2E2DF", "on-primary-container": "#819986", "on-tertiary-fixed": "#161f00", canvas: "#F9F9F7", "inverse-on-surface": "#f1effc", "surface-container-lowest": "#ffffff", "on-surface": "#1a1b24", background: "#fbf8ff", "primary-container": "#1b3022", "surface-variant": "#e2e1ee", "surface-container-highest": "#e2e1ee", "on-tertiary-container": "#8a9a5b", "on-secondary-fixed-variant": "#6d3a00", "surface-bright": "#fbf8ff", "secondary-container": "#fdad67", secondary: "#8c4f10", "primary-fixed-dim": "#b4cdb8", "surface-dim": "#dad9e5", tertiary: "#121a00", "on-background": "#1a1b24", "surface-container-low": "#f4f2ff", "on-primary": "#ffffff", "on-primary-fixed": "#0b2013", error: "#ba1a1a", "on-tertiary-fixed-variant": "#3e4c16"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {"max-width-content": "1280px", gutter: "24px", "margin-desktop": "64px", unit: "4px", "margin-mobile": "16px"}, fontFamily: {"body-lg": ["Inter"], "label-sm": ["Inter"], "headline-md": ["\"Source Serif 4\""], "headline-lg-mobile": ["\"Source Serif 4\""], "body-md": ["Inter"], "headline-xl": ["\"Source Serif 4\""], "label-md": ["Inter"], "headline-lg": ["\"Source Serif 4\""], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Inter"]}, fontSize: {"body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "500"}], "headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-xl": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600"}]}}}};</script>
+</head>
+<body class="bg-canvas text-on-surface font-body-md text-body-md antialiased selection:bg-primary selection:text-on-primary">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-canvas dark:bg-background fixed left-0 top-0 h-full w-64 border-r border-low-contrast dark:border-outline-variant flat no shadows hidden lg:flex flex-col p-6 space-y-4 z-50">
+<!-- Header -->
+<div class="mb-8">
+<h1 class="text-headline-lg font-headline-lg text-primary dark:text-primary-fixed mb-8">NutriSnap</h1>
+<div class="flex items-center gap-3">
+<img alt="NutriSnap Premium User" class="w-10 h-10 rounded-full object-cover border border-border-low-contrast" data-alt="A professional, editorial-style medium close-up portrait of a health-conscious individual in natural, diffused daylight. The lighting is soft and flattering, creating a premium light-mode aesthetic. The subject is well-groomed, exuding calm confidence and vitality. The background is a slightly out-of-focus, minimalist modern interior with muted, neutral tones of off-white and soft grey, subtly complementing a sophisticated UI color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbcQIYslE0XIcaFVsBVe4fu_N7jU8kL_eqR91HXpmS6zn5HwxDeFW_vhqGdJGqkEzt8ekUxG4SuSZbFXwmR2LaJn3XMW0RBoAylSaFlAq9ch3zu1vVSFBsPJd_ddAOWCq_TVsFGkFWOMg1FvN_prhawaw7FptFATDwZO7vLOLRvv5_V5VoM_dS8iX5BgsGglDzqc2MHUlDxtqT5omOmFy1jwVy77jkV1ptYFV339oW7gZwWjRxOFE6LrxI9h62iVQEYbJYji_4yY8"/>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface">Premium Edition</p>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary rounded py-2 px-4 text-label-md font-label-md flex items-center justify-center gap-2 hover:bg-on-surface transition-colors mb-6 shadow-[0px_4px_20px_rgba(25,26,35,0.06)]">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Log New Meal
+        </button>
+<!-- Navigation Links -->
+<ul class="flex-1 space-y-2">
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="{{DATA:SCREEN:SCREEN_18}}">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+                    Meal Log
+                </a>
+</li>
+<li class="">
+<!-- Active Navigation: Analytics -->
+<a class="flex items-center gap-3 py-2 text-primary dark:text-primary-fixed font-bold border-l-4 border-primary dark:border-primary-fixed pl-4 transition-all duration-200 ease-in-out text-label-md font-label-md bg-surface-container-lowest" href="{{DATA:SCREEN:SCREEN_7}}">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">insights</span>
+                    Analytics
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="{{DATA:SCREEN:SCREEN_5}}">
+<span class="material-symbols-outlined">menu_book</span>
+                    Recipes
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="#">
+<span class="material-symbols-outlined">track_changes</span>
+                    Goals
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="{{DATA:SCREEN:SCREEN_20}}">
+<span class="material-symbols-outlined">person</span>
+                    Account
+                </a>
+</li>
+</ul>
+<!-- Footer Links -->
+<ul class="border-t border-border-low-contrast pt-4 space-y-2 mt-auto">
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="#">
+<span class="material-symbols-outlined">help</span>
+                    Support
+                </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out text-label-md font-label-md rounded" href="#">
+<span class="material-symbols-outlined">logout</span>
+                    Sign Out
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 min-h-screen pt-24 px-8 lg:px-12 max-w-[1200px] mx-auto pb-12">
+<!-- Editorial Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2">Analytics &amp; Reporting</p>
+<h2 class="text-headline-xl font-headline-xl text-primary">Nutrition Trends</h2>
+</div>
+<div class="flex items-center gap-4">
+<!-- Date Selector -->
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-border-low-contrast rounded text-label-md font-label-md text-on-surface hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                    Last 30 Days
+                    <span class="material-symbols-outlined text-[18px] ml-2">expand_more</span>
+</button>
+<!-- Export Action -->
+<button class="flex items-center gap-2 px-4 py-2 bg-transparent border border-primary rounded text-label-md font-label-md text-primary hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Export CSV
+                </button>
+</div>
+</header>
+<!-- Summary Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-12">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-border-low-contrast rounded p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-label-md font-label-md text-on-surface-variant">Average Daily Calories</h3>
+<span class="material-symbols-outlined text-outline">local_fire_department</span>
+</div>
+<div>
+<p class="text-headline-lg font-headline-lg text-primary mb-1">2,140 <span class="text-body-md font-body-md text-on-surface-variant ml-1">kcal</span></p>
+<p class="text-label-sm font-label-sm text-on-primary-container bg-primary-fixed inline-block px-2 py-0.5 rounded-full flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> 4% vs last period
+                    </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-border-low-contrast rounded p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-label-md font-label-md text-on-surface-variant">Macro Balance</h3>
+<span class="material-symbols-outlined text-outline">pie_chart</span>
+</div>
+<div>
+<p class="text-headline-lg font-headline-lg text-primary mb-3">30/45/25</p>
+<!-- Mini visual indicator -->
+<div class="w-full h-1.5 bg-surface-variant rounded-full flex overflow-hidden">
+<div class="h-full bg-primary" style="width: 30%;" title="Protein: 30%"></div>
+<div class="h-full bg-clay-light" style="width: 45%;" title="Carbs: 45%"></div>
+<div class="h-full bg-tertiary-container" style="width: 25%;" title="Fats: 25%"></div>
+</div>
+<div class="flex justify-between mt-2 text-label-sm font-label-sm text-on-surface-variant">
+<span class="">P: 30%</span>
+<span class="">C: 45%</span>
+<span class="">F: 25%</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-border-low-contrast rounded p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-label-md font-label-md text-on-surface-variant">Consistency Score</h3>
+<span class="material-symbols-outlined text-outline">verified</span>
+</div>
+<div>
+<p class="text-headline-lg font-headline-lg text-primary mb-1">92<span class="text-body-md font-body-md text-on-surface-variant ml-1">/100</span></p>
+<p class="text-body-md font-body-md text-on-surface-variant">Hitting targets 27 of 30 days.</p>
+</div>
+</div>
+</section>
+<!-- Interactive Charts Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-12">
+<!-- Main Trend Chart -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-border-low-contrast rounded p-6">
+<div class="flex justify-between items-center mb-8 border-b border-border-low-contrast pb-4">
+<h3 class="text-headline-md font-headline-md text-primary">Calorie &amp; Macro Trends</h3>
+<div class="flex gap-4">
+<span class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary block"></span> Calories
+                        </span>
+<span class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-border-low-contrast block"></span> Target
+                        </span>
+</div>
+</div>
+<!-- Chart Canvas Area (Simulated Data Vis) -->
+<div class="relative w-full h-[300px] flex items-end">
+<!-- Y Axis Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-slate-muted/20 h-0"></div>
+<div class="w-full border-t border-slate-muted/20 h-0"></div>
+<div class="w-full border-t border-slate-muted/20 h-0"></div>
+<div class="w-full border-t border-slate-muted/20 h-0"></div>
+<div class="w-full border-t border-slate-muted/20 h-0"></div>
+</div>
+<!-- Target Line -->
+<div class="absolute top-[40%] w-full border-t-2 border-dashed border-border-low-contrast z-0"></div>
+<!-- SVG Line Chart representation -->
+<svg class="absolute inset-0 w-full h-full overflow-visible z-10" preserveaspectratio="none" viewbox="0 0 1000 300">
+<path class="text-primary" d="M0,250 C100,200 200,280 300,180 C400,80 500,220 600,150 C700,80 800,190 900,100 L1000,120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3"></path>
+<!-- Data Points -->
+<circle class="fill-surface-container-lowest stroke-primary stroke-2" cx="0" cy="250" r="4"></circle>
+<circle class="fill-surface-container-lowest stroke-primary stroke-2" cx="300" cy="180" r="4"></circle>
+<circle class="fill-surface-container-lowest stroke-primary stroke-2" cx="600" cy="150" r="4"></circle>
+<circle class="fill-surface-container-lowest stroke-primary stroke-2" cx="900" cy="100" r="4"></circle>
+<circle class="fill-surface-container-lowest stroke-primary stroke-2" cx="1000" cy="120" r="4"></circle>
+</svg>
+<!-- X Axis Labels -->
+<div class="absolute -bottom-8 w-full flex justify-between text-label-sm font-label-sm text-outline">
+<span class="">Oct 01</span>
+<span class="">Oct 08</span>
+<span class="">Oct 15</span>
+<span class="">Oct 22</span>
+<span class="">Oct 29</span>
+</div>
+</div>
+</div>
+<!-- Comparison Chart -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-border-low-contrast rounded p-6">
+<div class="mb-8 border-b border-border-low-contrast pb-4">
+<h3 class="text-headline-md font-headline-md text-primary">Target vs. Actual</h3>
+</div>
+<div class="space-y-8 mt-4">
+<!-- Progress Bar 1: Protein -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-2">
+<span class="text-on-surface">Protein</span>
+<span class="text-on-surface-variant">140g / 150g</span>
+</div>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 93%;"></div>
+</div>
+</div>
+<!-- Progress Bar 2: Carbs -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-2">
+<span class="text-on-surface">Carbs</span>
+<span class="text-on-surface-variant">210g / 200g</span>
+</div>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-clay-light rounded-full" style="width: 105%;"></div>
+</div>
+</div>
+<!-- Progress Bar 3: Fats -->
+<div>
+<div class="flex justify-between text-label-sm font-label-sm mb-2">
+<span class="text-on-surface">Fats</span>
+<span class="text-on-surface-variant">55g / 65g</span>
+</div>
+<div class="w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+</div>
+<!-- Bespoke annotation -->
+<div class="mt-12 p-4 bg-canvas border border-border-low-contrast rounded flex items-start gap-3">
+<span class="material-symbols-outlined text-outline">info</span>
+<p class="text-body-md font-body-md text-on-surface-variant italic font-headline-md" style="font-family: 'Source Serif 4', serif;">
+                        You are consistently exceeding carbohydrate targets on weekends.
+                    </p>
+</div>
+</div>
+</section>
+<!-- History Log Section -->
+<section class="bg-surface-container-lowest border border-border-low-contrast rounded overflow-hidden">
+<div class="p-6 border-b border-border-low-contrast flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<h3 class="text-headline-md font-headline-md text-primary">Daily History Log</h3>
+<!-- Search/Filter -->
+<div class="relative w-full sm:w-auto">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full sm:w-64 pl-10 pr-4 py-2 border border-border-low-contrast rounded bg-canvas text-body-md font-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search entries..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-canvas border-b border-border-low-contrast">
+<th class="py-4 px-6 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider w-1/5">Date</th>
+<th class="py-4 px-6 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider w-1/5">Total Calories</th>
+<th class="py-4 px-6 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider w-2/5">Macro Distribution (P/C/F)</th>
+<th class="py-4 px-6 text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider w-1/5 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-low-contrast">
+<!-- Row 1 -->
+<tr class="hover:bg-canvas transition-colors group">
+<td class="py-4 px-6">
+<p class="text-body-md font-body-md text-on-surface font-medium">Oct 29, 2023</p>
+<p class="text-label-sm font-label-sm text-outline">Tuesday</p>
+</td>
+<td class="py-4 px-6 text-body-md font-body-md text-on-surface">
+                                2,050 <span class="text-outline text-label-sm font-label-sm">kcal</span>
+</td>
+<td class="py-4 px-6">
+<div class="w-full h-1.5 bg-surface-variant rounded-full flex overflow-hidden mb-1">
+<div class="h-full bg-primary" style="width: 35%;"></div>
+<div class="h-full bg-clay-light" style="width: 40%;"></div>
+<div class="h-full bg-tertiary-container" style="width: 25%;"></div>
+</div>
+<p class="text-[10px] text-outline font-label-sm">150g / 180g / 50g</p>
+</td>
+<td class="py-4 px-6 text-right">
+<a class="text-label-md font-label-md text-primary opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="{{DATA:SCREEN:SCREEN_19}}">View Details</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-canvas transition-colors group">
+<td class="py-4 px-6">
+<p class="text-body-md font-body-md text-on-surface font-medium">Oct 28, 2023</p>
+<p class="text-label-sm font-label-sm text-outline">Monday</p>
+</td>
+<td class="py-4 px-6 text-body-md font-body-md text-on-surface">
+                                2,120 <span class="text-outline text-label-sm font-label-sm">kcal</span>
+</td>
+<td class="py-4 px-6">
+<div class="w-full h-1.5 bg-surface-variant rounded-full flex overflow-hidden mb-1">
+<div class="h-full bg-primary" style="width: 30%;"></div>
+<div class="h-full bg-clay-light" style="width: 50%;"></div>
+<div class="h-full bg-tertiary-container" style="width: 20%;"></div>
+</div>
+<p class="text-[10px] text-outline font-label-sm">135g / 220g / 45g</p>
+</td>
+<td class="py-4 px-6 text-right">
+<a class="text-label-md font-label-md text-primary opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="{{DATA:SCREEN:SCREEN_19}}">View Details</a>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-canvas transition-colors group">
+<td class="py-4 px-6">
+<p class="text-body-md font-body-md text-on-surface font-medium">Oct 27, 2023</p>
+<p class="text-label-sm font-label-sm text-outline">Sunday</p>
+</td>
+<td class="py-4 px-6 text-body-md font-body-md text-on-surface">
+                                2,400 <span class="text-outline text-label-sm font-label-sm">kcal</span>
+</td>
+<td class="py-4 px-6">
+<div class="w-full h-1.5 bg-surface-variant rounded-full flex overflow-hidden mb-1">
+<div class="h-full bg-primary" style="width: 25%;"></div>
+<div class="h-full bg-clay-light" style="width: 55%;"></div>
+<div class="h-full bg-tertiary-container" style="width: 20%;"></div>
+</div>
+<p class="text-[10px] text-outline font-label-sm">120g / 280g / 50g</p>
+</td>
+<td class="py-4 px-6 text-right">
+<a class="text-label-md font-label-md text-primary opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="{{DATA:SCREEN:SCREEN_19}}">View Details</a>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-canvas transition-colors group">
+<td class="py-4 px-6">
+<p class="text-body-md font-body-md text-on-surface font-medium">Oct 26, 2023</p>
+<p class="text-label-sm font-label-sm text-outline">Saturday</p>
+</td>
+<td class="py-4 px-6 text-body-md font-body-md text-on-surface">
+                                2,250 <span class="text-outline text-label-sm font-label-sm">kcal</span>
+</td>
+<td class="py-4 px-6">
+<div class="w-full h-1.5 bg-surface-variant rounded-full flex overflow-hidden mb-1">
+<div class="h-full bg-primary" style="width: 28%;"></div>
+<div class="h-full bg-clay-light" style="width: 45%;"></div>
+<div class="h-full bg-tertiary-container" style="width: 27%;"></div>
+</div>
+<p class="text-[10px] text-outline font-label-sm">130g / 210g / 60g</p>
+</td>
+<td class="py-4 px-6 text-right">
+<a class="text-label-md font-label-md text-primary opacity-0 group-hover:opacity-100 transition-opacity hover:underline" href="{{DATA:SCREEN:SCREEN_19}}">View Details</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-4 border-t border-border-low-contrast bg-canvas flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant">
+<span class="">Showing 1 to 4 of 30 entries</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-low-contrast rounded hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 border border-border-low-contrast rounded hover:bg-surface-container transition-colors text-primary border-primary bg-surface-container-lowest">1</button>
+<button class="px-3 py-1 border border-border-low-contrast rounded hover:bg-surface-container transition-colors">2</button>
+<button class="px-3 py-1 border border-border-low-contrast rounded hover:bg-surface-container transition-colors">3</button>
+<button class="px-3 py-1 border border-border-low-contrast rounded hover:bg-surface-container transition-colors">Next</button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

@@ -17,15 +17,21 @@ interface ProfileData {
   firstName: string;
   lastName: string;
   email: string;
-  weight: number;
-  targetWeight: number;
-  bodyFat: number;
-  bmi: number;
+  weight?: number;
+  targetWeight?: number;
+  height?: number;
+  bodyFat?: number;
+  bmi?: number;
   dietaryPrefs: string[];
-  caloriesTarget: number;
-  proteinTarget: number;
-  carbsTarget: number;
-  fatsTarget: number;
+  caloriesTarget?: number;
+  proteinTarget?: number;
+  carbsTarget?: number;
+  fatsTarget?: number;
+  waterTarget?: number;
+  age?: number;
+  gender?: string;
+  activityLevel?: string;
+  goalType?: string;
   isPremium: boolean;
   memberSince: string;
   pushNotifications?: boolean;
@@ -93,15 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       firstName: first,
       lastName: last,
       email: email,
-      weight: 178,
-      targetWeight: 165,
-      bodyFat: 18,
-      bmi: 23.4,
       dietaryPrefs: ["High Protein", "Gluten-Free", "Low Carb"],
-      caloriesTarget: 2400,
-      proteinTarget: 180,
-      carbsTarget: 200,
-      fatsTarget: 70,
       isPremium: true,
       memberSince: new Date().getFullYear().toString(),
       pushNotifications: true,
@@ -135,15 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       firstName: first,
       lastName: last,
       email: currentUser.email || "",
-      weight: 178,
-      targetWeight: 165,
-      bodyFat: 18,
-      bmi: 23.4,
       dietaryPrefs: ["High Protein", "Gluten-Free", "Low Carb"],
-      caloriesTarget: 2400,
-      proteinTarget: 180,
-      carbsTarget: 200,
-      fatsTarget: 70,
       isPremium: true,
       memberSince: new Date().getFullYear().toString(),
       pushNotifications: true,
@@ -154,7 +144,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateUserProfileData = async (data: Partial<ProfileData>) => {
     if (!user) throw new Error("No authenticated user found");
     const userDocRef = doc(db, "users", user.uid);
-    await updateDoc(userDocRef, data);
+    // Remove any undefined properties to prevent Firestore updateDoc crashes
+    const cleanData = Object.fromEntries(
+      Object.entries(data).filter(([_, v]) => v !== undefined)
+    );
+    await updateDoc(userDocRef, cleanData);
   };
 
   return (

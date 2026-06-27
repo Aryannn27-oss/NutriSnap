@@ -1,12 +1,125 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
+interface Meal {
+  id: string;
+  name?: string;
+  mealType?: string;
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fats?: number;
+  imageUrl?: string;
+  date?: string;
+}
+
+// Compute the current week's local date strings (Mon-Sun)
+const getWeekDays = () => {
+  const current = new Date();
+  const day = current.getDay();
+  // Adjust for Sunday being 0 -> Monday becomes -6
+  const diff = current.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(current.setDate(diff));
+
+  const days: { dateStr: string; label: string }[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateStr = d.toLocaleDateString("en-CA"); // YYYY-MM-DD in local time
+    const label = d.toLocaleDateString(undefined, { weekday: "short" })[0]; // 'M', 'T', 'W'...
+    days.push({ dateStr, label });
+  }
+  return days;
+};
 
 export default function Dashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, profileData } = useAuth();
+  const [weeklyMeals, setWeeklyMeals] = useState<Meal[]>([]);
+  const [loadingMeals, setLoadingMeals] = useState(true);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const weekDays = getWeekDays();
+    const weekStartStr = weekDays[0].dateStr;
+    const weekEndStr = weekDays[6].dateStr;
+
+    const mealsRef = collection(db, "users", user.uid, "meals");
+    const q = query(
+      mealsRef,
+      where("date", ">=", weekStartStr),
+      where("date", "<=", weekEndStr)
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const mealsList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Meal[];
+        setWeeklyMeals(mealsList);
+        setLoadingMeals(false);
+      },
+      (err) => {
+        console.error("Error fetching weekly meals:", err);
+        setLoadingMeals(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user]);
+
+  const todayStr = new Date().toLocaleDateString("en-CA");
+  const todayMeals = weeklyMeals.filter((m) => m.date === todayStr);
+
+  const caloriesLimit = profileData?.caloriesTarget || 1;
+  const proteinLimit = profileData?.proteinTarget || 1;
+  const carbsLimit = profileData?.carbsTarget || 1;
+  const fatsLimit = profileData?.fatsTarget || 1;
+
+  const totalCalories = todayMeals.reduce((sum, m) => sum + (m.calories || 0), 0);
+  const totalProtein = todayMeals.reduce((sum, m) => sum + (m.protein || 0), 0);
+  const totalCarbs = todayMeals.reduce((sum, m) => sum + (m.carbs || 0), 0);
+  const totalFats = todayMeals.reduce((sum, m) => sum + (m.fats || 0), 0);
+
+  const caloriesPct = Math.min(100, Math.round((totalCalories / caloriesLimit) * 100));
+  const proteinPct = Math.min(100, Math.round((totalProtein / proteinLimit) * 100));
+  const carbsPct = Math.min(100, Math.round((totalCarbs / carbsLimit) * 100));
+  const fatsPct = Math.min(100, Math.round((totalFats / fatsLimit) * 100));
+
+  const currentDateLabel = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
+  if (profileData && !profileData.caloriesTarget) {
+    return (
+      <main className="flex-1 p-6 md:p-16 bg-canvas w-full max-w-7xl mx-auto flex items-center justify-center min-h-[70vh] page-transition">
+        <div className="bg-white border border-low-contrast rounded-lg p-12 text-center max-w-lg shadow-sm">
+          <span className="material-symbols-outlined text-6xl text-slate-muted mb-4">
+            track_changes
+          </span>
+          <h3 className="text-2xl font-display font-semibold text-primary mb-3">Set Up Your Nutrition Goals</h3>
+          <p className="text-on-surface-variant mb-8 max-w-md mx-auto">
+            To start tracking your daily calories and macronutrient progress, please configure your goals. You can let us calculate them or enter them manually.
+          </p>
+          <Link href="/goals">
+            <button className="bg-primary text-white rounded px-6 py-3 text-sm font-semibold hover:bg-opacity-90 transition-colors shadow-sm cursor-pointer">
+              Configure Goals
+            </button>
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="flex-1 p-6 md:p-16 bg-canvas w-full max-w-7xl mx-auto">
@@ -19,7 +132,7 @@ export default function Dashboard() {
               <h2 className="text-4xl font-display text-primary font-bold">
                 {profileData?.firstName ? `Today, ${profileData.firstName}` : "Today"}
               </h2>
-              <p className="text-lg text-on-surface-variant mt-1">Thursday, October 24</p>
+              <p className="text-lg text-on-surface-variant mt-1">{currentDateLabel}</p>
             </div>
             {/* Desktop Actions */}
             <div className="hidden lg:flex space-x-4 items-center text-on-surface-variant relative">
@@ -59,14 +172,16 @@ export default function Dashboard() {
                   Calories
                 </span>
                 <div className="mt-2">
-                  <span className="text-2xl font-display text-primary font-bold">1,840</span>
-                  <span className="text-sm text-on-surface-variant"> / 2400</span>
+                  <span className="text-2xl font-display text-primary font-bold">
+                    {totalCalories}
+                  </span>
+                  <span className="text-sm text-on-surface-variant"> / {caloriesLimit} kcal</span>
                 </div>
               </div>
               <div className="w-full bg-slate-100 h-1 mt-4 relative">
                 <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-clay-light"
-                  style={{ width: "76%" }}
+                  style={{ width: `${caloriesPct}%` }}
                 ></div>
               </div>
             </div>
@@ -78,14 +193,14 @@ export default function Dashboard() {
                   Protein
                 </span>
                 <div className="mt-2">
-                  <span className="text-2xl font-display text-primary font-bold">112g</span>
-                  <span className="text-sm text-on-surface-variant"> / 140g</span>
+                  <span className="text-2xl font-display text-primary font-bold">{totalProtein}</span>
+                  <span className="text-sm text-on-surface-variant"> / {proteinLimit} g</span>
                 </div>
               </div>
               <div className="w-full bg-slate-100 h-1 mt-4 relative">
                 <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-sage-light"
-                  style={{ width: "80%" }}
+                  style={{ width: `${proteinPct}%` }}
                 ></div>
               </div>
             </div>
@@ -97,14 +212,14 @@ export default function Dashboard() {
                   Carbs
                 </span>
                 <div className="mt-2">
-                  <span className="text-2xl font-display text-primary font-bold">180g</span>
-                  <span className="text-sm text-on-surface-variant"> / 250g</span>
+                  <span className="text-2xl font-display text-primary font-bold">{totalCarbs}</span>
+                  <span className="text-sm text-on-surface-variant"> / {carbsLimit} g</span>
                 </div>
               </div>
               <div className="w-full bg-slate-100 h-1 mt-4 relative">
                 <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-primary-fixed"
-                  style={{ width: "72%" }}
+                  style={{ width: `${carbsPct}%` }}
                 ></div>
               </div>
             </div>
@@ -116,14 +231,14 @@ export default function Dashboard() {
                   Fats
                 </span>
                 <div className="mt-2">
-                  <span className="text-2xl font-display text-primary font-bold">45g</span>
-                  <span className="text-sm text-on-surface-variant"> / 65g</span>
+                  <span className="text-2xl font-display text-primary font-bold">{totalFats}</span>
+                  <span className="text-sm text-on-surface-variant"> / {fatsLimit} g</span>
                 </div>
               </div>
               <div className="w-full bg-slate-100 h-1 mt-4 relative">
                 <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-secondary-fixed"
-                  style={{ width: "69%" }}
+                  style={{ width: `${fatsPct}%` }}
                 ></div>
               </div>
             </div>
@@ -137,7 +252,7 @@ export default function Dashboard() {
                 This Week <span className="material-symbols-outlined text-sm ml-1">expand_more</span>
               </button>
             </div>
-            {/* Simple conceptual chart structure */}
+            {/* Simple dynamic chart structure */}
             <div className="h-48 flex items-end justify-between space-x-2 px-2 relative border-b border-slate-muted border-opacity-20 pb-2">
               {/* Y-axis lines */}
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
@@ -146,97 +261,89 @@ export default function Dashboard() {
                 <div className="w-full border-t border-slate-muted border-opacity-20 h-0"></div>
               </div>
               {/* Bars */}
-              <div className="w-1/7 bg-surface-container hover:bg-slate-200 transition-colors rounded-t h-[60%] relative group cursor-pointer">
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-canvas text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  1400 kcal
-                </div>
-              </div>
-              <div className="w-1/7 bg-surface-container hover:bg-slate-200 transition-colors rounded-t h-[80%] relative group cursor-pointer">
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-canvas text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  1900 kcal
-                </div>
-              </div>
-              <div className="w-1/7 bg-primary-fixed hover:bg-opacity-80 transition-colors rounded-t h-[75%] relative group cursor-pointer">
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-canvas text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                  1840 kcal
-                </div>
-              </div>
-              <div className="w-1/7 bg-slate-100 rounded-t h-0"></div>
-              <div className="w-1/7 bg-slate-100 rounded-t h-0"></div>
-              <div className="w-1/7 bg-slate-100 rounded-t h-0"></div>
-              <div className="w-1/7 bg-slate-100 rounded-t h-0"></div>
+              {getWeekDays().map((day, idx) => {
+                const isToday = day.dateStr === todayStr;
+                const dayMeals = weeklyMeals.filter((m) => m.date === day.dateStr);
+                const dayKcal = dayMeals.reduce((sum, m) => sum + (m.calories || 0), 0);
+                const heightPct = Math.min(100, Math.round((dayKcal / caloriesLimit) * 100));
+                
+                return (
+                  <div
+                    key={idx}
+                    className={`w-1/7 rounded-t relative group cursor-pointer transition-all duration-300 ${
+                      isToday ? "bg-primary-fixed hover:bg-opacity-80" : "bg-slate-100 hover:bg-slate-200"
+                    }`}
+                    style={{ height: `${Math.max(2, heightPct)}%` }}
+                  >
+                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-canvas text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                      {dayKcal} kcal
+                    </div>
+                  </div>
+                );
+              })}
             </div>
             <div className="flex justify-between px-2 mt-2 text-xs text-on-surface-variant uppercase font-semibold">
-              <span>M</span>
-              <span>T</span>
-              <span className="text-primary font-bold">W</span>
-              <span>T</span>
-              <span>F</span>
-              <span>S</span>
-              <span>S</span>
+              {getWeekDays().map((day, idx) => {
+                const isToday = day.dateStr === todayStr;
+                return (
+                  <span key={idx} className={isToday ? "text-primary font-bold" : ""}>
+                    {day.label}
+                  </span>
+                );
+              })}
             </div>
           </div>
 
           {/* Today's Meals Grid */}
           <div>
             <h3 className="text-xl font-display text-primary font-bold mb-4">Today's Meals</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Meal Card 1 */}
-              <div className="bg-white border border-low-contrast rounded-lg overflow-hidden group shadow-sm">
-                <div
-                  className="bg-cover bg-center w-full h-48"
-                  style={{
-                    backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzzvIK_eiQShAQGNibQHjQEl1IJJtY9qAM0DmSdMnX8JW4EZ_3CqUx0T_hc4kryK7KF4MaCFlLlkG56VGZOB00eFoluMVinI4DtoWGZuyBloe-5MPtfXaPfEIgMY91Cr-Jv-9TQjGZmG0yUM0UxcMqL9pJLolnnvI8XBhZlGg7JcfVqNFACL6A5evA1wv8vhS_M-lqkvnzQODzSHFgnycVWJt3Ud0oi_oK1rqWNht9004RDpefAI2eYoKwoY6Fno1tcYBK6U5KD4c')`,
-                  }}
-                ></div>
-                <div className="p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase">
-                        Breakfast
-                      </span>
-                      <h4 className="text-lg font-semibold text-primary mt-1">Avocado Toast & Egg</h4>
-                    </div>
-                    <span className="text-sm font-semibold text-primary bg-primary-fixed px-2 py-1 rounded">
-                      420 kcal
-                    </span>
-                  </div>
-                  <div className="flex space-x-4 text-xs text-on-surface-variant mt-3 font-semibold">
-                    <span>P: 18g</span>
-                    <span>C: 32g</span>
-                    <span>F: 22g</span>
-                  </div>
-                </div>
+            {todayMeals.length === 0 ? (
+              <div className="bg-white border border-low-contrast rounded-lg p-10 text-center shadow-sm">
+                <span className="material-symbols-outlined text-5xl text-slate-muted mb-3">restaurant</span>
+                <h4 className="text-lg font-semibold text-primary mb-1">No meals logged today</h4>
+                <p className="text-xs text-on-surface-variant mb-6 max-w-sm mx-auto">
+                  Take a photo of your food to automatically break down and track your macros.
+                </p>
+                <Link href="/upload">
+                  <button className="bg-primary text-white rounded px-5 py-2 text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-xs cursor-pointer">
+                    Log Your First Meal
+                  </button>
+                </Link>
               </div>
-
-              {/* Meal Card 2 */}
-              <div className="bg-white border border-low-contrast rounded-lg overflow-hidden group shadow-sm">
-                <div
-                  className="bg-cover bg-center w-full h-48"
-                  style={{
-                    backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLboxAMyHhfbKy9FEdz3hlL9pRh-3qGjtekp4_C_Kc-0vWmXdLbFzqfkMZK7kFWzulSvSIBTBm7QcSWXf4Sv7pyqVJrvu28NJBWvejTUrqZHsiVyxzeZ84sipHbSw2NPPyQGsbQ_FypQ7BFkUIzzv26xzKM2nKdfssmdijEcJ4ypmitMdm04PnUeZLHTkT_NngZ34uJ16NPRDXdP31bxNkh3ENxbsd8kK4LNTnZxwpPc-9EE3L1B1HNoONDrceGd2bwG6Q65pUu0o')`,
-                  }}
-                ></div>
-                <div className="p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase">
-                        Lunch
-                      </span>
-                      <h4 className="text-lg font-semibold text-primary mt-1">Roasted Quinoa Bowl</h4>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {todayMeals.map((meal) => (
+                  <div key={meal.id} className="bg-white border border-low-contrast rounded-lg overflow-hidden group shadow-sm">
+                    {meal.imageUrl && (
+                      <div
+                        className="bg-cover bg-center w-full h-48"
+                        style={{ backgroundImage: `url('${meal.imageUrl}')` }}
+                      ></div>
+                    )}
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <span className="text-xs font-semibold text-on-surface-variant uppercase">
+                            {meal.mealType || "Meal"}
+                          </span>
+                          <h4 className="text-lg font-semibold text-primary mt-1">
+                            {meal.name || "Untitled Log"}
+                          </h4>
+                        </div>
+                        <span className="text-sm font-semibold text-primary bg-primary-fixed px-2 py-1 rounded">
+                          {meal.calories} kcal
+                        </span>
+                      </div>
+                      <div className="flex space-x-4 text-xs text-on-surface-variant mt-3 font-semibold">
+                        <span>P: {meal.protein || 0}g</span>
+                        <span>C: {meal.carbs || 0}g</span>
+                        <span>F: {meal.fats || 0}g</span>
+                      </div>
                     </div>
-                    <span className="text-sm font-semibold text-primary bg-primary-fixed px-2 py-1 rounded">
-                      650 kcal
-                    </span>
                   </div>
-                  <div className="flex space-x-4 text-xs text-on-surface-variant mt-3 font-semibold">
-                    <span>P: 24g</span>
-                    <span>C: 65g</span>
-                    <span>F: 28g</span>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -253,54 +360,6 @@ export default function Dashboard() {
             <h3 className="text-xl font-display font-semibold mb-1">Log Meal</h3>
             <p className="text-sm opacity-80">Snap a photo to estimate macros</p>
           </Link>
-
-          {/* Daily Goals */}
-          <div className="bg-white border border-low-contrast rounded-lg p-6 shadow-sm">
-            <h3 className="text-xl font-display text-primary font-bold mb-6 border-b border-low-contrast pb-2">
-              Daily Goals
-            </h3>
-            <div className="space-y-6">
-              {/* Goal 1 */}
-              <div>
-                <div className="flex justify-between text-xs font-semibold mb-2">
-                  <span className="text-on-surface">Hydration</span>
-                  <span className="text-on-surface-variant">1.2 / 2.5 L</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1 relative">
-                  <div
-                    className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-clay-light"
-                    style={{ width: "48%" }}
-                  ></div>
-                </div>
-              </div>
-              {/* Goal 2 */}
-              <div>
-                <div className="flex justify-between text-xs font-semibold mb-2">
-                  <span className="text-on-surface">Fiber</span>
-                  <span className="text-on-surface-variant">18 / 30 g</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1 relative">
-                  <div
-                    className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-sage-light"
-                    style={{ width: "60%" }}
-                  ></div>
-                </div>
-              </div>
-              {/* Goal 3 */}
-              <div>
-                <div className="flex justify-between text-xs font-semibold mb-2">
-                  <span className="text-on-surface">Steps</span>
-                  <span className="text-on-surface-variant">6,420 / 10,000</span>
-                </div>
-                <div className="w-full bg-slate-100 h-1 relative">
-                  <div
-                    className="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-slate-400"
-                    style={{ width: "64%" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Insight Highlight */}
           <div className="bg-white border border-low-contrast rounded-lg p-6 relative overflow-hidden shadow-sm">

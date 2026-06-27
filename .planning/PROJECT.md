@@ -16,12 +16,12 @@ Empower users to track their nutrition instantly and effortlessly through AI ima
 
 ### Active
 
-- [ ] Initialize Next.js project structure and componentize core Google Stitch UI elements.
-- [ ] Implement user authentication via Firebase Auth.
-- [ ] Build meal image upload page integrated with Firebase Storage.
-- [ ] Connect Gemini API via Next.js Route Handlers to analyze meal images and extract food info, calories, and macros.
-- [ ] Save meal logs and daily metrics to Firebase Firestore.
-- [ ] Create dashboard, analytics, and history pages showing daily progress and weekly energy charts.
+- [x] Initialize Next.js project structure and componentize core Google Stitch UI elements. (Phase 1)
+- [x] Implement user authentication via Firebase Auth. (Phase 2)
+- [x] Build meal image upload page integrated with Cloudinary. (Phase 3)
+- [x] Connect Gemini API via Next.js Route Handlers to analyze meal images and extract food info, calories, and macros. (Phase 3)
+- [x] Save meal logs and daily metrics to Firebase Firestore. (Phase 3)
+- [x] Create dashboard, analytics, and history pages showing daily progress and weekly energy charts. (Phase 5)
 
 ### Out of Scope
 

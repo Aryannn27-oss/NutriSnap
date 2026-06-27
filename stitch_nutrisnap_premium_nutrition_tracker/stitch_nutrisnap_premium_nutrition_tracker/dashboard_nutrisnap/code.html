@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NutriSnap Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-fixed": "#d9eaa3", "surface-variant": "#e2e1ee", "surface-container-high": "#e8e7f4", "inverse-surface": "#2f3039", "on-tertiary-container": "#8a9a5b", "inverse-primary": "#b4cdb8", "inverse-on-surface": "#f1effc", "surface-container-highest": "#e2e1ee", "secondary-fixed": "#ffdcc2", "on-surface-variant": "#434843", "on-tertiary-fixed-variant": "#3e4c16", "on-primary-fixed-variant": "#364c3c", "surface-container-low": "#f4f2ff", "on-primary-container": "#819986", tertiary: "#121a00", "on-secondary-fixed-variant": "#6d3a00", "secondary-fixed-dim": "#ffb77b", canvas: "#F9F9F7", "on-background": "#1a1b24", "on-surface": "#1a1b24", "surface-container-lowest": "#ffffff", "border-low-contrast": "#E2E2DF", "on-primary-fixed": "#0b2013", "tertiary-container": "#243000", "surface-tint": "#4d6453", "on-secondary-container": "#763f00", "on-error": "#ffffff", "primary-fixed-dim": "#b4cdb8", background: "#fbf8ff", surface: "#fbf8ff", "error-container": "#ffdad6", "primary-fixed": "#d0e9d4", outline: "#737973", "tertiary-fixed-dim": "#bdce89", "secondary-container": "#fdad67", primary: "#061b0e", secondary: "#8c4f10", "on-secondary-fixed": "#2e1500", "primary-container": "#1b3022", "on-primary": "#ffffff", "surface-bright": "#fbf8ff", "outline-variant": "#c3c8c1", error: "#ba1a1a", "surface-container": "#eeecfa", "on-tertiary-fixed": "#161f00", "on-secondary": "#ffffff", "surface-dim": "#dad9e5", "slate-muted": "#4A4D55", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "sage-light": "#C2CBB5", "clay-light": "#D9A066"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {gutter: "24px", unit: "4px", "margin-mobile": "16px", "margin-desktop": "64px", "max-width-content": "1280px"}, fontFamily: {"label-sm": ["Inter"], "headline-xl": ["\"Source Serif 4\""], "headline-lg": ["\"Source Serif 4\""], "label-md": ["Inter"], "headline-lg-mobile": ["\"Source Serif 4\""], "body-md": ["Inter"], "headline-md": ["\"Source Serif 4\""], "body-lg": ["Inter"], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Inter"]}, fontSize: {"label-sm": ["12px", {lineHeight: "16px", fontWeight: "500"}], "headline-xl": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}]}}}};</script>
+</head>
+<body class="bg-canvas text-on-surface font-body-md text-body-md antialiased h-screen overflow-hidden flex">
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="bg-canvas lg:flex flex-col p-6 space-y-4 fixed left-0 top-0 h-full w-64 border-r border-low-contrast z-40 flex">
+<div class="mb-8">
+<h1 class="text-headline-lg font-headline-lg text-primary">NutriSnap</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">Premium Edition</p>
+</div>
+<div class="flex flex-col space-y-2 flex-grow">
+<!-- Active: Dashboard -->
+<a class="flex items-center space-x-3 text-primary font-bold border-l-4 border-primary pl-4 py-2 transition-all duration-200 ease-in-out text-label-md font-label-md" href="{{DATA:SCREEN:SCREEN_18}}">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="#meal-log">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="">Meal Log</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="{{DATA:SCREEN:SCREEN_7}}">
+<span class="material-symbols-outlined">insights</span>
+<span class="">Analytics</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="{{DATA:SCREEN:SCREEN_5}}">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="">Recipes</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="#goals">
+<span class="material-symbols-outlined">track_changes</span>
+<span class="">Goals</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="{{DATA:SCREEN:SCREEN_20}}">
+<span class="material-symbols-outlined">person</span>
+<span class="">Account</span>
+</a>
+</div>
+<button class="bg-primary text-on-primary rounded py-3 text-label-md font-label-md w-full mt-auto mb-4 hover:bg-surface-tint transition-colors" onclick="window.location.href='{{DATA:SCREEN:SCREEN_10}}'">
+            Log New Meal
+        </button>
+<div class="border-t border-low-contrast pt-4 flex flex-col space-y-2">
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="{{DATA:SCREEN:SCREEN_18}}">
+<span class="material-symbols-outlined">help</span>
+<span class="">Support</span>
+</a>
+<a class="flex items-center space-x-3 text-on-surface-variant pl-4 py-2 hover:bg-surface-container hover:text-primary transition-all duration-200 ease-in-out text-label-md font-label-md" href="#sign-out">
+<span class="material-symbols-outlined">logout</span>
+<span class="">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden ml-64">
+<!-- TopAppBar (Mobile only for branding/actions, as SideNav handles desktop) -->
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile lg:p-margin-desktop bg-canvas w-full max-w-max-width-content mx-auto">
+<div class="flex flex-col xl:flex-row gap-gutter">
+<!-- Left/Main Column: Dashboard Stats & Progress -->
+<div class="flex-1 space-y-gutter">
+<!-- Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-headline-xl font-headline-xl text-primary font-bold">Today</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-1">Thursday, October 24</p>
+</div>
+<!-- Desktop Actions -->
+<div class="hidden lg:flex space-x-4 items-center text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+<img class="w-10 h-10 rounded-full object-cover border border-low-contrast cursor-pointer" data-alt="A small circular user profile photo showing a young professional woman with a calm expression, set against a bright, minimalist background in a modern health app context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByD8iqD0-wsiqknttzQBkMDaEW4yBTHhOvIBHkcB_G1FfnK7pyUqbobcM_D-rUN9TlIb-g3V2571HgZsd2MEkFSBZSxzqan9CiYI84DIprgLbtuAo2UpsEDAv3XgQs4gBit42MgWndn_Zv5UEsRBL3o8YvUjCacPGIeK-y2wWiOIpcVwh8R5ruuLV3i4yQnhgJ2vFRwcx7zHjkrlHo8VTaOj8n0BfHW0moudDX02m4Dp7U5SqUSCHXxvRR91M6JM2roSc9ApcpJKA"/>
+</div>
+</div>
+<!-- Macro Cards (Bento style) -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Calories -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6 flex flex-col justify-between h-40">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Calories</span>
+<div class="mt-2">
+<span class="text-headline-lg font-headline-lg text-primary">1,840</span>
+<span class="text-body-md font-body-md text-on-surface-variant">/ 2400</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1 mt-4 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-clay-light" style="width: 76%;"></div>
+</div>
+</div>
+<!-- Protein -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6 flex flex-col justify-between h-40">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Protein</span>
+<div class="mt-2">
+<span class="text-headline-lg font-headline-lg text-primary">112g</span>
+<span class="text-body-md font-body-md text-on-surface-variant">/ 140g</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1 mt-4 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-sage-light" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Carbs -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6 flex flex-col justify-between h-40">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Carbs</span>
+<div class="mt-2">
+<span class="text-headline-lg font-headline-lg text-primary">180g</span>
+<span class="text-body-md font-body-md text-on-surface-variant">/ 250g</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1 mt-4 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-primary-fixed" style="width: 72%;"></div>
+</div>
+</div>
+<!-- Fats -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6 flex flex-col justify-between h-40">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Fats</span>
+<div class="mt-2">
+<span class="text-headline-lg font-headline-lg text-primary">45g</span>
+<span class="text-body-md font-body-md text-on-surface-variant">/ 65g</span>
+</div>
+</div>
+<div class="w-full bg-surface-container h-1 mt-4 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-secondary-fixed" style="width: 69%;"></div>
+</div>
+</div>
+</div>
+<!-- Weekly Chart Section -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-headline-md font-headline-md text-primary">Weekly Energy</h3>
+<button class="text-label-sm font-label-sm text-on-surface-variant flex items-center hover:text-primary transition-colors">
+                                This Week <span class="material-symbols-outlined text-sm ml-1">expand_more</span>
+</button>
+</div>
+<!-- Simple conceptual chart structure -->
+<div class="h-48 flex items-end justify-between space-x-2 px-2 relative border-b border-slate-muted border-opacity-20 pb-2">
+<!-- Y-axis lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-slate-muted border-opacity-20 h-0"></div>
+<div class="w-full border-t border-slate-muted border-opacity-20 h-0"></div>
+<div class="w-full border-t border-slate-muted border-opacity-20 h-0"></div>
+</div>
+<!-- Bars -->
+<div class="w-1/7 bg-surface-container hover:bg-surface-variant transition-colors rounded-t h-[60%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">1400</div>
+</div>
+<div class="w-1/7 bg-surface-container hover:bg-surface-variant transition-colors rounded-t h-[80%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">1900</div>
+</div>
+<div class="w-1/7 bg-primary-fixed hover:bg-primary-fixed-dim transition-colors rounded-t h-[75%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm font-label-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">1840</div>
+</div>
+<div class="w-1/7 bg-surface-container rounded-t h-0"></div>
+<div class="w-1/7 bg-surface-container rounded-t h-0"></div>
+<div class="w-1/7 bg-surface-container rounded-t h-0"></div>
+<div class="w-1/7 bg-surface-container rounded-t h-0"></div>
+</div>
+<div class="flex justify-between px-2 mt-2 text-label-sm font-label-sm text-on-surface-variant uppercase">
+<span class="">M</span><span class="">T</span><span class="text-primary font-bold">W</span><span class="">T</span><span class="">F</span><span class="">S</span><span class="">S</span>
+</div>
+</div>
+<!-- Today's Meals Grid -->
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-4">Today's Meals</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Meal Card 1 -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg overflow-hidden group">
+<div class="bg-cover bg-center w-full h-48" data-alt="A high-quality editorial food photography shot of a vibrant avocado toast with a poached egg on rustic sourdough bread, resting on a white ceramic plate. The lighting is soft, natural morning light, creating a clean, modern aesthetic suitable for a premium health tracking app. Minimalist background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzzvIK_eiQShAQGNibQHjQEl1IJJtY9qAM0DmSdMnX8JW4EZ_3CqUx0T_hc4kryK7KF4MaCFlLlkG56VGZOB00eFoluMVinI4DtoWGZuyBloe-5MPtfXaPfEIgMY91Cr-Jv-9TQjGZmG0yUM0UxcMqL9pJLolnnvI8XBhZlGg7JcfVqNFACL6A5evA1wv8vhS_M-lqkvnzQODzSHFgnycVWJt3Ud0oi_oK1rqWNht9004RDpefAI2eYoKwoY6Fno1tcYBK6U5KD4c')"></div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Breakfast</span>
+<h4 class="text-body-lg font-body-lg font-medium text-primary mt-1">Avocado Toast &amp; Egg</h4>
+</div>
+<span class="text-label-md font-label-md text-primary bg-primary-fixed px-2 py-1 rounded">420 kcal</span>
+</div>
+<div class="flex space-x-4 text-label-sm font-label-sm text-on-surface-variant mt-3">
+<span class="">P: 18g</span>
+<span class="">C: 32g</span>
+<span class="">F: 22g</span>
+</div>
+</div>
+</div>
+<!-- Meal Card 2 -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg overflow-hidden group">
+<div class="bg-cover bg-center w-full h-48" data-alt="A professional culinary photo of a fresh, colorful quinoa salad bowl containing roasted sweet potatoes, kale, chickpeas, and a tahini dressing. The dish is presented cleanly in a shallow matte white bowl on a light stone surface. Lighting is bright, diffused, and sophisticated, reflecting a high-end wellness brand style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLboxAMyHhfbKy9FEdz3hlL9pRh-3qGjtekp4_C_Kc-0vWmXdLbFzqfkMZK7kFWzulSvSIBTBm7QcSWXf4Sv7pyqVJrvu28NJBWvejTUrqZHsiVyxzeZ84sipHbSw2NPPyQGsbQ_FypQ7BFkUIzzv26xzKM2nKdfssmdijEcJ4ypmitMdm04PnUeZLHTkT_NngZ34uJ16NPRDXdP31bxNkh3ENxbsd8kK4LNTnZxwpPc-9EE3L1B1HNoONDrceGd2bwG6Q65pUu0o')"></div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Lunch</span>
+<h4 class="text-body-lg font-body-lg font-medium text-primary mt-1">Roasted Quinoa Bowl</h4>
+</div>
+<span class="text-label-md font-label-md text-primary bg-primary-fixed px-2 py-1 rounded">650 kcal</span>
+</div>
+<div class="flex space-x-4 text-label-sm font-label-sm text-on-surface-variant mt-3">
+<span class="">P: 24g</span>
+<span class="">C: 65g</span>
+<span class="">F: 28g</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Goals & Quick Entry -->
+<div class="w-full xl:w-80 flex flex-col space-y-gutter">
+<!-- Quick Log -->
+<div class="bg-primary text-on-primary rounded-lg p-6 shadow-sm flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-tint transition-colors group" onclick="window.location.href='{{DATA:SCREEN:SCREEN_10}}'">
+<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">add_a_photo</span>
+<h3 class="text-headline-md font-headline-md mb-1">Log Dinner</h3>
+<p class="text-body-md font-body-md opacity-80">Snap a photo or search</p>
+</div>
+<!-- Daily Goals -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6">
+<h3 class="text-headline-md font-headline-md text-primary mb-6 border-b border-low-contrast pb-2">Daily Goals</h3>
+<div class="space-y-6">
+<!-- Goal 1 -->
+<div>
+<div class="flex justify-between text-label-md font-label-md mb-2">
+<span class="text-on-surface">Hydration</span>
+<span class="text-on-surface-variant">1.2 / 2.5 L</span>
+</div>
+<div class="w-full bg-surface-container h-1 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-clay-light" style="width: 48%;"></div>
+</div>
+</div>
+<!-- Goal 2 -->
+<div>
+<div class="flex justify-between text-label-md font-label-md mb-2">
+<span class="text-on-surface">Fiber</span>
+<span class="text-on-surface-variant">18 / 30 g</span>
+</div>
+<div class="w-full bg-surface-container h-1 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-sage-light" style="width: 60%;"></div>
+</div>
+</div>
+<!-- Goal 3 -->
+<div>
+<div class="flex justify-between text-label-md font-label-md mb-2">
+<span class="text-on-surface">Steps</span>
+<span class="text-on-surface-variant">6,420 / 10,000</span>
+</div>
+<div class="w-full bg-surface-container h-1 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-2 rounded bg-outline" style="width: 64%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Insight Highlight -->
+<div class="bg-surface-container-lowest border border-low-contrast rounded-lg p-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-fixed opacity-50 rounded-bl-full -z-10"></div>
+<span class="material-symbols-outlined text-primary mb-3">lightbulb</span>
+<h4 class="text-label-md font-label-md text-primary uppercase mb-2">Insight</h4>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+                            You're trending higher in healthy fats this week compared to last. Keep balancing with complex carbs!
+                        </p>
+</div>
+</div>
+</div>
+<!-- Padding for bottom nav on mobile -->
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+</body></html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NutriSnap - Meal Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"surface-container": "#eeecfa", "on-tertiary": "#ffffff", "primary-fixed": "#d0e9d4", "tertiary-container": "#243000", "surface-tint": "#4d6453", "secondary-fixed": "#ffdcc2", "outline-variant": "#c3c8c1", "surface-container-high": "#e8e7f4", "surface-bright": "#fbf8ff", "primary-fixed-dim": "#b4cdb8", "on-primary-fixed-variant": "#364c3c", "on-secondary": "#ffffff", "on-surface": "#1a1b24", tertiary: "#121a00", "primary-container": "#1b3022", "on-primary": "#ffffff", "on-error-container": "#93000a", "surface-container-low": "#f4f2ff", "on-secondary-fixed": "#2e1500", "on-primary-fixed": "#0b2013", "surface-container-lowest": "#ffffff", "error-container": "#ffdad6", canvas: "#F9F9F7", "on-secondary-fixed-variant": "#6d3a00", "clay-light": "#D9A066", "tertiary-fixed-dim": "#bdce89", "on-tertiary-container": "#8a9a5b", "inverse-surface": "#2f3039", "sage-light": "#C2CBB5", background: "#fbf8ff", "tertiary-fixed": "#d9eaa3", error: "#ba1a1a", surface: "#fbf8ff", "on-secondary-container": "#763f00", "border-low-contrast": "#E2E2DF", "inverse-on-surface": "#f1effc", "surface-dim": "#dad9e5", "on-tertiary-fixed-variant": "#3e4c16", "on-surface-variant": "#434843", "surface-variant": "#e2e1ee", "on-primary-container": "#819986", "secondary-container": "#fdad67", "secondary-fixed-dim": "#ffb77b", "on-tertiary-fixed": "#161f00", "inverse-primary": "#b4cdb8", "slate-muted": "#4A4D55", secondary: "#8c4f10", "surface-container-highest": "#e2e1ee", "on-error": "#ffffff", primary: "#061b0e", "on-background": "#1a1b24", outline: "#737973"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {gutter: "24px", unit: "4px", "margin-mobile": "16px", "max-width-content": "1280px", "margin-desktop": "64px"}, fontFamily: {"headline-xl": ["\"Source Serif 4\""], "body-lg": ["Inter"], "label-sm": ["Inter"], "headline-md": ["\"Source Serif 4\""], "label-md": ["Inter"], "headline-lg": ["\"Source Serif 4\""], "headline-lg-mobile": ["\"Source Serif 4\""], "body-md": ["Inter"], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-xl": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "500"}], "headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}]}}}};</script>
+<style>
+        body {
+            background-color: #F9F9F7;
+            color: #1a1b24;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Progress Bar Utilities */
+        .progress-track {
+            background-color: #E2E2DF;
+            height: 1px;
+            width: 100%;
+            position: relative;
+            margin-top: 12px;
+            margin-bottom: 24px;
+        }
+        .progress-fill {
+            background-color: #061b0e;
+            height: 4px;
+            position: absolute;
+            top: -1.5px;
+            left: 0;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar for Mobile -->
+<nav class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 bg-surface dark:bg-background border-b border-low-contrast dark:border-outline-variant fixed top-0 z-40">
+<div class="flex items-center gap-2">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">NutriSnap</span>
+</div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant dark:text-outline hover:text-primary transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col p-6 space-y-4 bg-canvas dark:bg-background border-r border-low-contrast dark:border-outline-variant w-64 h-screen fixed left-0 top-0 z-30">
+<div class="mb-8">
+<h1 class="text-headline-lg font-headline-lg text-primary dark:text-primary-fixed mb-1">NutriSnap</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Premium Edition</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="{{DATA:SCREEN:SCREEN_18}}">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-primary dark:text-primary-fixed font-bold border-l-4 border-primary dark:border-primary-fixed pl-4 bg-surface-container/50 rounded-r transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined fill-icon">restaurant</span>
+<span class="text-label-md font-label-md">Meal Log</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="{{DATA:SCREEN:SCREEN_7}}">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-label-md font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="{{DATA:SCREEN:SCREEN_5}}">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="text-label-md font-label-md">Recipes</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">track_changes</span>
+<span class="text-label-md font-label-md">Goals</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="{{DATA:SCREEN:SCREEN_20}}">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-md font-label-md">Account</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 rounded text-label-md font-label-md hover:opacity-90 transition-opacity">
+                Log New Meal
+            </button>
+<div class="space-y-2 pt-4 border-t border-low-contrast">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant dark:text-outline pl-4 hover:bg-surface-container dark:hover:bg-surface-container-high hover:text-primary dark:hover:text-primary-fixed transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-label-md font-label-md">Sign Out</span>
+</a>
+</div>
+<div class="flex items-center gap-3 pt-2 pl-4">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small circular profile picture of a young professional in soft natural lighting, elegant modern photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjuI7K81wkCo5YCs18WdOKB4XWFPReU3-IQysOUnOX1uVjWo88bT7BIJl81bjNC5uBTTfYVuoK2745gNnEN86GE2mNN585A7FJCsGXVLQCJ_1SimsswNSHBuNr1eaTaUUN9s-7zzikmydcd95xsJd1E9TQMXCDAaE7KFpfuetJalWfIxJy6HrpZksgCHB_WWG6cXr78nOOL07FOir9YTpJNmaDXMIlhnDno1i7EnJMHlqLPcKiwtzmmmhebwHyTZZ8TgVvjKU8kZE"/>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Premium User</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 w-full pt-16 lg:pt-0 pb-20 lg:pb-0 overflow-y-auto">
+<!-- Back Navigation Header -->
+<div class="px-margin-mobile lg:px-margin-desktop py-6 flex items-center justify-between border-b border-low-contrast bg-canvas/80 backdrop-blur-sm sticky top-0 lg:top-0 z-20">
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md px-4 py-2 border border-outline-variant rounded-lg bg-surface hover:bg-surface-container" href="{{DATA:SCREEN:SCREEN_7}}"><span class="material-symbols-outlined">arrow_back</span> Back to Meal Log</a>
+<div class="flex gap-3">
+<button aria-label="Share" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button aria-label="Edit" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button aria-label="Delete" class="p-2 text-error hover:bg-error-container/20 transition-colors rounded">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="max-w-max-width-content mx-auto px-margin-mobile lg:px-margin-desktop py-8">
+<div class="bg-surface rounded-2xl shadow-sm border border-low-contrast p-6 lg:p-8">
+<!-- Asymmetrical Layout Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Side: Image Column (Spans 5 columns on desktop) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-sm">
+<img class="absolute inset-0 w-full h-full object-cover object-center" data-alt="A high-resolution, overhead culinary photograph of a beautifully plated seared tuna salad with mixed greens, avocado, and sesame seeds in a ceramic bowl. The lighting is soft, natural, and bright, conveying a fresh, premium, and healthy aesthetic. Minimalist off-white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9U_ipBM4Euez4KI1Q9Y-ZkSBLp0tosRKl-YB29Md-E6fYIO2_NwKEjQLaUAwtjGEBWc2aInyPEjL2ln6lVWTioFhviHUQiDB6vLkCOL-s3XLTUZqjthw-lcc5enqUNV8I3WVuz6NJdTqfHeceeVSyUsamryO73YLk3iS-OFHL4vBij7Du7P7aCoK6Flet6-jb7Gr32KvAe9MfMrgKXdOq2tSYTbHaQ0xmGgz0UnSHaNYssfLlimz8Hp6OerrXHRFxtM6L9npSkdo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<span class="inline-block px-2 py-1 bg-white/20 backdrop-blur-md rounded text-label-sm font-label-sm mb-2 uppercase tracking-wider">AI Scanned</span>
+</div>
+</div>
+<!-- Scan Confidence -->
+<div class="bg-surface p-6 border border-low-contrast rounded-lg">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-md font-label-md text-on-surface-variant">Scan Confidence</span>
+<span class="text-label-md font-label-md text-primary">High</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" style="width: 92%;"></div>
+</div>
+<p class="text-label-sm font-label-sm text-slate-muted">Our AI is highly confident in this meal breakdown based on visual analysis.</p>
+</div>
+</div>
+<!-- Right Side: Editorial Content Column (Spans 7 columns on desktop) -->
+<div class="lg:col-span-7 flex flex-col pt-4 lg:pl-8">
+<!-- Header Section -->
+<div class="mb-10">
+<div class="flex items-baseline justify-between mb-2">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Lunch</span>
+<span class="text-label-md font-label-md text-slate-muted">Today, 1:15 PM</span>
+</div>
+<h2 class="text-headline-xl font-headline-xl text-primary mb-4 leading-tight">Seared Ahi Tuna <br/> &amp; Avocado Salad</h2>
+<div class="flex items-center gap-4 py-4 border-y border-low-contrast">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">verified</span>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Nutrition Grade</span>
+<span class="text-headline-md font-headline-md text-primary leading-none">A</span>
+</div>
+</div>
+<div class="h-10 w-px bg-low-contrast"></div>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Total Calories</span>
+<span class="text-headline-md font-headline-md text-primary leading-none">420 <span class="text-body-md font-body-md text-slate-muted font-normal">kcal</span></span>
+</div>
+</div>
+</div>
+<!-- Macro Summary -->
+<div class="mb-12">
+<h3 class="text-headline-md font-headline-md text-on-surface-variant tracking-tight mb-6">Macronutrients</h3>
+<div class="grid grid-cols-3 gap-6">
+<!-- Protein -->
+<div class="flex flex-col">
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-body-lg font-body-lg text-primary">Protein</span>
+<span class="text-label-md font-label-md text-on-surface-variant">32g</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" style="width: 65%;"></div>
+</div>
+<span class="text-label-sm font-label-sm text-slate-muted">40% of Daily</span>
+</div>
+<!-- Carbs -->
+<div class="flex flex-col">
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-body-lg font-body-lg text-primary">Carbs</span>
+<span class="text-label-md font-label-md text-on-surface-variant">18g</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" style="width: 25%; background-color: #8c4f10;"></div>
+</div>
+<span class="text-label-sm font-label-sm text-slate-muted">15% of Daily</span>
+</div>
+<!-- Fats -->
+<div class="flex flex-col">
+<div class="flex justify-between items-baseline mb-1">
+<span class="text-body-lg font-body-lg text-primary">Fats</span>
+<span class="text-label-md font-label-md text-on-surface-variant">24g</span>
+</div>
+<div class="progress-track">
+<div class="progress-fill" style="width: 45%; background-color: #D9A066;"></div>
+</div>
+<span class="text-label-sm font-label-sm text-slate-muted">30% of Daily</span>
+</div>
+</div>
+</div>
+<!-- Micronutrients Grid -->
+<div class="mb-12">
+<h3 class="text-headline-md font-headline-md text-on-surface-variant tracking-tight mb-4">Micronutrients</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-low-contrast border border-low-contrast rounded-lg overflow-hidden">
+<div class="p-6 flex flex-col justify-center items-center text-center bg-canvas">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Fiber</span>
+<span class="text-headline-md font-headline-md text-primary">6g</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-canvas">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Sugar</span>
+<span class="text-headline-md font-headline-md text-primary">4g</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-canvas">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Sodium</span>
+<span class="text-headline-md font-headline-md text-primary">480mg</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-canvas">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Potassium</span>
+<span class="text-headline-md font-headline-md text-primary">620mg</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-surface-container-low">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Vit A</span>
+<span class="text-headline-md font-headline-md text-primary">120%</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-surface-container-low">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Vit C</span>
+<span class="text-headline-md font-headline-md text-primary">45%</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-surface-container-low">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Iron</span>
+<span class="text-headline-md font-headline-md text-primary">20%</span>
+</div>
+<div class="p-6 flex flex-col justify-center items-center text-center bg-surface-container-low">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-2">Calcium</span>
+<span class="text-headline-md font-headline-md text-primary">8%</span>
+</div>
+</div>
+</div>
+<!-- Ingredients List -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-headline-md font-headline-md text-on-surface-variant tracking-tight">Detected Ingredients</h3>
+<button class="text-label-sm font-label-sm text-primary underline hover:text-surface-tint transition-colors">Edit</button>
+</div>
+<ul class="space-y-0">
+<li class="flex justify-between items-center py-3 border-b border-low-contrast/50">
+<span class="text-body-md font-body-md text-primary">Ahi Tuna (Seared)</span>
+<span class="text-body-md font-body-md text-slate-muted">150g</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-low-contrast/50">
+<span class="text-body-md font-body-md text-primary">Mixed Salad Greens</span>
+<span class="text-body-md font-body-md text-slate-muted">80g</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-low-contrast/50">
+<span class="text-body-md font-body-md text-primary">Avocado</span>
+<span class="text-body-md font-body-md text-slate-muted">50g</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-low-contrast/50">
+<span class="text-body-md font-body-md text-primary">Sesame Dressing</span>
+<span class="text-body-md font-body-md text-slate-muted">30ml</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-low-contrast/50">
+<span class="text-body-md font-body-md text-primary">Black Sesame Seeds</span>
+<span class="text-body-md font-body-md text-slate-muted">5g</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar for Mobile -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-background border-t border-low-contrast dark:border-outline-variant shadow-sm z-40 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:bg-surface-container-highest dark:active:bg-surface-container-high scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined fill-icon">menu_book</span>
+<span class="text-label-sm font-label-sm">Journal</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:bg-surface-container-highest dark:active:bg-surface-container-high scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">add_a_photo</span>
+<span class="text-label-sm font-label-sm">Log</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:bg-surface-container-highest dark:active:bg-surface-container-high scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-label-sm font-label-sm">Trends</span>
+</a>
+</nav>
+</body></html>

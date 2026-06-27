@@ -1,93 +1,89 @@
 # Requirements: NutriSnap
 
 **Defined:** 2026-06-26
-**Core Value:** Faithfully implement the premium Google Stitch editorial design system and visual hierarchy, ensuring an outstanding aesthetic and seamless user experience for the initial MVP modules.
+**Core Value:** Empower users to track their nutrition instantly and effortlessly through AI image analysis on a clean, calm dashboard.
 
 ## v1 Requirements
 
 ### Authentication
 
-- [ ] **AUTH-01**: Clean visual layout matching the Editorial Modernism style.
-- [ ] **AUTH-02**: Sign-up and Sign-in forms with full client-side validation using React Hook Form and Zod.
-- [ ] **AUTH-03**: Interactive input fields with light 1px borders transitioning to Deep Forest Green (#061b0e) on focus.
-- [ ] **AUTH-04**: Simulated user session using Zustand store for login/logout state transitions.
+- [ ] **AUTH-01**: User can sign up with email and password using Firebase Auth.
+- [ ] **AUTH-02**: User can sign in using existing credentials.
+- [ ] **AUTH-03**: User can sign out from the sidebar.
+- [ ] **AUTH-04**: User session persists across browser refreshes.
 
-### Dashboard
+### Layout & Foundation
 
-- [ ] **DASH-01**: Asymmetric, magazine-spread layout (Main dashboard + Sidebar style) on desktop.
-- [ ] **DASH-02**: High-contrast, large numeric data (calories, primary macros) using Source Serif 4 display font.
-- [ ] **DASH-03**: Daily macro progress indicators using the thick-to-thin visual design (1px background track, 4px progress bar with rounded ends).
-- [ ] **DASH-04**: Dense but breathable recent meals list separated by thin 1px `border-low-contrast` lines instead of shadows.
-- [ ] **DASH-05**: Interactive quick-action buttons in solid Deep Forest Green with 4px corner radius.
+- [ ] **LAYT-01**: Create clean component folder structure inside `src/` directory.
+- [ ] **LAYT-02**: Implement responsive app layout shell with Sidebar navigation (hidden on mobile).
+- [ ] **LAYT-03**: Setup Tailwind CSS v4 styling rules and custom color themes (calm palette, brand fonts).
+- [ ] **LAYT-04**: Componentize core screen static mockups from Google Stitch (Dashboard, Upload Meal, Meal Details, Settings).
 
-### Upload Meal
+### Meal Photo Upload & Storage
 
-- [ ] **UPLD-01**: Image selector/drop zone for uploading meal photos.
-- [ ] **UPLD-02**: Interactive camera upload simulator for mobile mockups.
-- [ ] **UPLD-03**: Sage-colored processing indicator representing the simulated AI analysis state.
+- [ ] **IMGL-01**: User can drag/drop or select an image file on the Upload Meal page.
+- [ ] **IMGL-02**: App uploads meal image to Firebase Storage under user-specific subdirectories (`users/{uid}/meals/`).
+- [ ] **IMGL-03**: User receives a visual upload progress indicator and thumbnail preview.
 
-### AI Result Screen
+### AI Nutrition Analysis
 
-- [ ] **RSLT-01**: Clear editorial breakdown of analyzed nutrients (calories, fat, protein, carbs) with custom annotations using Source Serif 4.
-- [ ] **RSLT-02**: Confident solid blocks and thin outlines showing recommended vs actual meal targets.
-- [ ] **RSLT-03**: Button to save/add the analyzed meal to the history.
+- [ ] **AIAN-01**: Create secure Next.js Server Route `/api/analyze` to process Gemini generative AI requests.
+- [ ] **AIAN-02**: Pass meal photo to Gemini-1.5-flash with custom system instructions to extract nutrition data.
+- [ ] **AIAN-03**: Enforce strict JSON Schema output from Gemini containing: identified foods, estimated weights, calories, protein, carbs, and fats.
+- [ ] **AIAN-04**: Client receives and parses the AI analysis result to display as a preview page.
 
-### Meal History
+### Meal Logging & Storage
 
-- [ ] **HIST-01**: Data-dense but readable timeline log of past meals.
-- [ ] **HIST-02**: Search input and category filter buttons.
-- [ ] **HIST-03**: Inspect detail view for any past meal entry.
+- [ ] **MEAL-01**: Save the approved meal log (photo URL, identified foods list, calories, macros, timestamp) to Firestore collection (`users/{uid}/meals`).
+- [ ] **MEAL-02**: Allow users to adjust portion weights or macro totals manually before saving.
+- [ ] **MEAL-03**: Allow users to delete a logged meal from their daily history list.
 
-### User Profile
+### Bento Dashboard & Metrics
 
-- [ ] **PROF-01**: Personal info form (avatar display, name, email) with validation.
-- [ ] **PROF-02**: Nutritional goals form to modify daily target calories and macro ratios.
-- [ ] **PROF-03**: Clean and elegant presentation of the user's subscription tier.
+- [ ] **DASH-01**: Dashboard displays calorie, protein, carb, and fat cards with visual progress bars.
+- [ ] **DASH-02**: Metrics are calculated reactively for the current day from the Firestore database logs.
+- [ ] **DASH-03**: Dashboard displays a list of "Today's Meals" showing thumbnail, name, calories, and macros.
 
 ## v2 Requirements
 
-### Supabase DB Integration
-- **DB-01**: Live Supabase user database authentication synchronization.
-- **DB-02**: Meal log history data persistence to Supabase tables.
+### Analytics & Trends
 
-### AI Integration
-- **AI-01**: Real food image recognition using AI model.
-- **AI-02**: Automated nutritional estimation from AI model.
+- **TRND-01**: Dashboard renders a visual weekly energy bar chart showing calories consumed.
+- **TRND-02**: Analytics page displays daily averages and macro balance ratios over a 7-day or 30-day window.
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Real-time chat/support | Non-core to MVP value |
-| Heavy animations and 3D effects | Stitch design specifies flat, confident blocks and natural depth |
-| Real AI analysis API | Mock data only for this initial frontend UI MVP stage |
-| Real database persistence | Mock Zustand storage only for this initial stage |
+| Multi-user social feeds | Out of scope for MVP; target single-user tracking value first. |
+| Custom barcode scanner | High API dependency and license cost; Gemini label reading can substitute. |
+| Offline SQLite database | Keep backend cloud-based via Firebase. |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| DASH-01 | Phase 2 | Pending |
-| DASH-02 | Phase 2 | Pending |
-| DASH-03 | Phase 2 | Pending |
-| DASH-04 | Phase 2 | Pending |
-| DASH-05 | Phase 2 | Pending |
-| UPLD-01 | Phase 3 | Pending |
-| UPLD-02 | Phase 3 | Pending |
-| UPLD-03 | Phase 3 | Pending |
-| RSLT-01 | Phase 3 | Pending |
-| RSLT-02 | Phase 3 | Pending |
-| RSLT-03 | Phase 3 | Pending |
-| HIST-01 | Phase 4 | Pending |
-| HIST-02 | Phase 4 | Pending |
-| HIST-03 | Phase 4 | Pending |
-| PROF-01 | Phase 5 | Pending |
-| PROF-02 | Phase 5 | Pending |
-| PROF-03 | Phase 5 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| LAYT-01 | Phase 1 | Pending |
+| LAYT-02 | Phase 1 | Pending |
+| LAYT-03 | Phase 1 | Pending |
+| LAYT-04 | Phase 1 | Pending |
+| IMGL-01 | Phase 3 | Pending |
+| IMGL-02 | Phase 3 | Pending |
+| IMGL-03 | Phase 3 | Pending |
+| AIAN-01 | Phase 3 | Pending |
+| AIAN-02 | Phase 3 | Pending |
+| AIAN-03 | Phase 3 | Pending |
+| AIAN-04 | Phase 3 | Pending |
+| MEAL-01 | Phase 4 | Pending |
+| MEAL-02 | Phase 4 | Pending |
+| MEAL-03 | Phase 4 | Pending |
+| DASH-01 | Phase 5 | Pending |
+| DASH-02 | Phase 5 | Pending |
+| DASH-03 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 21 total

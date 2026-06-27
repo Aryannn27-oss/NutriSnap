@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NutriSnap - Precision Nutrition Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {canvas: "#F9F9F7", "primary-fixed": "#d0e9d4", "surface-container-high": "#e8e7f4", "error-container": "#ffdad6", "inverse-on-surface": "#f1effc", "clay-light": "#D9A066", "surface-container-lowest": "#ffffff", surface: "#fbf8ff", "surface-container": "#eeecfa", "on-tertiary": "#ffffff", "on-primary": "#ffffff", "secondary-fixed": "#ffdcc2", "on-primary-container": "#819986", "primary-container": "#1b3022", "on-error-container": "#93000a", outline: "#737973", "surface-container-highest": "#e2e1ee", background: "#fbf8ff", "on-tertiary-fixed-variant": "#3e4c16", "sage-light": "#C2CBB5", "surface-bright": "#fbf8ff", primary: "#061b0e", tertiary: "#121a00", "on-error": "#ffffff", "on-secondary-container": "#763f00", "outline-variant": "#c3c8c1", "on-secondary": "#ffffff", "on-primary-fixed-variant": "#364c3c", error: "#ba1a1a", "inverse-primary": "#b4cdb8", "surface-tint": "#4d6453", "tertiary-container": "#243000", "tertiary-fixed": "#d9eaa3", "border-low-contrast": "#E2E2DF", "on-background": "#1a1b24", "inverse-surface": "#2f3039", "secondary-container": "#fdad67", "on-secondary-fixed-variant": "#6d3a00", "on-tertiary-fixed": "#161f00", "on-primary-fixed": "#0b2013", "surface-variant": "#e2e1ee", secondary: "#8c4f10", "tertiary-fixed-dim": "#bdce89", "on-surface-variant": "#434843", "surface-dim": "#dad9e5", "on-tertiary-container": "#8a9a5b", "on-surface": "#1a1b24", "primary-fixed-dim": "#b4cdb8", "surface-container-low": "#f4f2ff", "on-secondary-fixed": "#2e1500", "secondary-fixed-dim": "#ffb77b", "slate-muted": "#4A4D55"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}, spacing: {unit: "4px", "margin-desktop": "64px", "margin-mobile": "16px", gutter: "24px", "max-width-content": "1280px"}, fontFamily: {"headline-md": ["\"Source Serif 4\""], "headline-xl": ["\"Source Serif 4\""], "headline-lg": ["\"Source Serif 4\""], "body-md": ["Inter"], "label-md": ["Inter"], "body-lg": ["Inter"], "headline-lg-mobile": ["\"Source Serif 4\""], "label-sm": ["Inter"], headline: ["\"Source Serif 4\""], display: ["\"Source Serif 4\""], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-md": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-xl": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "headline-lg": ["32px", {lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "headline-lg-mobile": ["28px", {lineHeight: "36px", fontWeight: "600"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "500"}]}}}};</script>
+<style>
+        body {
+            background-color: theme('colors.canvas');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="docked full-width top-0 bg-surface dark:bg-background border-b border-low-contrast dark:border-outline-variant flat no shadows z-50 sticky">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-max-width-content mx-auto">
+<!-- Brand -->
+<a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed flex items-center gap-2" href="#">
+                NutriSnap
+            </a>
+<!-- Navigation Links (Hidden on Mobile) -->
+<div class="hidden md:flex items-center space-x-8 h-full">
+<a class="h-full flex flex-col justify-center text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80 transition-all" href="#">
+                    Dashboard
+                </a>
+<a class="h-full flex flex-col justify-center text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80 transition-all" href="#">
+                    Journal
+                </a>
+<a class="h-full flex flex-col justify-center text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80 transition-all" href="#">
+                    Kitchen
+                </a>
+<a class="h-full flex flex-col justify-center text-on-surface-variant dark:text-outline text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:opacity-80 transition-all" href="#">
+                    Insights
+                </a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User profile photo" class="w-8 h-8 rounded-full border border-low-contrast object-cover" data-alt="A clean, minimalist headshot of a user with a subtle, warm smile, styled with natural lighting. The background is a soft off-white, perfectly matching the UI canvas. The image communicates professionalism, calm, and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkKNcY7tqDsn4byUTgjnBgprMCbnDiDCWvGEWTIvuS7LNnOGfwnEscBUtK7P4vr35-6FdlIJzc5fK9aGsSK7XBTLBKZKCTA96RWd9hthdr-Rpv5F91LfBjLabqVF7QGU108rYDF_D_lAL71Cg831Tq8G_Kcq37zr68CSD0yl492lszinuxky7pCeWm3gRY9hreI_GCTUKskmIZBFoOiI021afATEH-U9SqwROlfCpXTrVBxgYVYFc6GFc3En5RsG5mYArx0hjnz6o"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center w-full max-w-max-width-content mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24 space-y-24">
+<!-- Hero Section -->
+<section class="w-full grid grid-cols-1 md:grid-cols-12 gap-gutter items-center min-h-[614px]">
+<div class="md:col-span-6 space-y-8 pr-0 md:pr-12">
+<h1 class="text-headline-lg-mobile md:text-headline-xl font-headline-lg-mobile md:font-headline-xl text-on-background">
+                    Nutrition tracking, refined for the modern palate.
+                </h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-lg">
+                    A meticulous approach to understanding your diet. NutriSnap pairs beautiful, structured data visualization with effortless logging, treating your dietary habits with the sophistication they deserve.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary rounded px-8 py-3 text-label-md font-label-md hover:bg-surface-tint transition-colors shadow-sm w-full sm:w-auto">
+                        Start Your Journal
+                    </button>
+<button class="bg-transparent border border-primary text-primary rounded px-8 py-3 text-label-md font-label-md hover:bg-surface-container-low transition-colors w-full sm:w-auto">
+                        Explore Features
+                    </button>
+</div>
+</div>
+<div class="md:col-span-6 mt-12 md:mt-0 relative">
+<!-- Decorative subtle background box -->
+<div class="absolute inset-0 bg-surface-container-low rounded-xl transform translate-x-4 translate-y-4 border border-low-contrast"></div>
+<img alt="NutriSnap App Interface Preview" class="relative z-10 w-full h-auto rounded-xl border border-low-contrast shadow-[0px_4px_20px_rgba(25,26,35,0.06)] object-cover" data-alt="A high-fidelity mockup of a sleek, minimalist nutrition tracking app interface displayed on a premium smartphone. The app shows beautifully structured data visualizations, clean typography, and a daily macronutrient summary in a sophisticated off-white and forest green color palette. The phone rests at a slight angle against a clean, softly lit studio background, evoking a sense of calm and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDfjqKneHWhKZQilzAvu7DbFgqn1idmcV-JA9VFXfH4jIh5eNmyfkDj5tIdSJAW5GIL4plNDa9HNsYtERQWwB3X_je7qD50xURWVl0fvkTCLITjJyctL8A3NPaX732dRUpS4wIDrdk59Fme5Kj-z5oAplYuzhms-NZzZp2HMwktBaPDRlZAFuJGCSDbCqG2gMYqCBvmLB414UGXFTlcMFrtepBXKBmmMHIvKsmdhqqMufhWz-x0Wp7VW3HgcM2Ev1efeqVxp1wWgQ"/>
+</div>
+</section>
+<!-- Trust / Logos -->
+<section class="w-full py-8 border-y border-low-contrast flex flex-col items-center space-y-6">
+<p class="text-label-sm font-label-sm text-slate-muted uppercase tracking-widest text-center">Trusted by culinary and fitness professionals</p>
+<div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale">
+<!-- Abstract simple logos built with standard shapes for placeholder -->
+<div class="flex items-center gap-2"><div class="w-4 h-4 rounded bg-on-background"></div><span class="text-label-md font-label-md font-bold">AURA</span></div>
+<div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-on-background"></div><span class="text-label-md font-label-md font-bold">VITA</span></div>
+<div class="flex items-center gap-2"><div class="w-4 h-4 border-2 border-on-background rotate-45"></div><span class="text-label-md font-label-md font-bold">NOVA</span></div>
+<div class="flex items-center gap-2"><div class="w-6 h-2 bg-on-background"></div><span class="text-label-md font-label-md font-bold">EPICURE</span></div>
+</div>
+</section>
+<!-- Feature Asymmetry 1 -->
+<section class="w-full grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5 md:col-start-2 order-2 md:order-1 mt-8 md:mt-0">
+<img alt="Meal Logging Detail" class="w-full h-[500px] object-cover rounded-xl border border-low-contrast" data-alt="A detailed, macro photography shot of a perfectly plated, nutritious meal—perhaps a vibrant grain bowl with perfectly sliced avocado and seared salmon. The lighting is soft, directional, and natural, highlighting the textures of the food. Overlaid on the image is a subtle, semi-transparent UI card showing precise nutritional breakdown metrics, rendered in a crisp, editorial style with thin borders." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCw4B8B11C6I7C2MvNFLTFRU1QqCzg9-9ndy3KbV28FQsCpRAYTQgPkY5NeOTBq3KvHxB6c0SomTZdJCcFRC_nTWqqzhGewbCQS0VgEUIazW_t08a3FFy4spAnt8wMN_zvGhOCsJfjlf5VrGegf5KV5EkxuOE2jK8Li76l-k3Jyi_RxsyROs3ZisePAms0KRihe5GXOykyysE2goYC1DgBwAY85_Ix9QRKLqiRbtKgdkG8tLz-L3-9lOFWflXAAHW33-jlVAVY-Sg4"/>
+</div>
+<div class="md:col-span-4 md:col-start-8 order-1 md:order-2 space-y-6">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest border-b border-primary pb-1 inline-block">The Canvas</span>
+<h2 class="text-headline-md font-headline-md text-on-background">
+                    Log with intention.
+                </h2>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                    Move beyond tedious entry. Our intelligent recognition system allows you to construct your meal logs as carefully as you construct your meals, ensuring every macro and micro nutrient is tracked with editorial precision.
+                </p>
+<a class="text-label-md font-label-md text-primary flex items-center gap-2 hover:opacity-80 transition-opacity" href="#">
+                    Discover logging mechanics <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</section>
+<!-- Feature Asymmetry 2 -->
+<section class="w-full grid grid-cols-1 md:grid-cols-12 gap-gutter items-center pt-12 md:pt-24">
+<div class="md:col-span-4 md:col-start-2 space-y-6">
+<span class="text-label-sm font-label-sm text-primary uppercase tracking-widest border-b border-primary pb-1 inline-block">The Insight</span>
+<h2 class="text-headline-md font-headline-md text-on-background">
+                    Data, elegantly composed.
+                </h2>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                    Your health history shouldn't look like a spreadsheet. We present your dietary trends through layered, tonal surfaces and refined charts, bringing clarity to your long-term goals without the noise.
+                </p>
+<a class="text-label-md font-label-md text-primary flex items-center gap-2 hover:opacity-80 transition-opacity" href="#">
+                    View sample reports <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="md:col-span-5 md:col-start-7 mt-8 md:mt-0">
+<div class="bg-surface-container-lowest border border-low-contrast rounded-xl p-8 shadow-[0px_4px_20px_rgba(25,26,35,0.04)]">
+<h3 class="text-headline-sm font-headline-md mb-6 border-b border-low-contrast pb-4">Weekly Synthesis</h3>
+<!-- Mock Chart area -->
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="w-16 text-label-sm font-label-sm text-on-surface-variant text-right">Mon</div>
+<div class="flex-grow h-1 bg-surface-container rounded-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full w-[80%]"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-16 text-label-sm font-label-sm text-on-surface-variant text-right">Tue</div>
+<div class="flex-grow h-1 bg-surface-container rounded-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full w-[65%]"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-16 text-label-sm font-label-sm text-on-surface-variant text-right">Wed</div>
+<div class="flex-grow h-1 bg-surface-container rounded-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full w-[90%]"></div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-16 text-label-sm font-label-sm text-on-surface-variant text-right">Thu</div>
+<div class="flex-grow h-1 bg-surface-container rounded-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full w-[75%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="w-full md:w-10/12 lg:w-8/12 mx-auto bg-primary-container text-on-primary-container rounded-xl p-12 md:p-24 text-center mt-24 mb-12 shadow-[0px_4px_20px_rgba(25,26,35,0.06)] border border-primary-fixed">
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg mb-6 text-on-primary-fixed">
+                Ready to refine your routine?
+            </h2>
+<p class="text-body-lg font-body-lg mb-10 max-w-xl mx-auto opacity-90 text-on-primary-fixed-variant">
+                Join a community that treats nutrition with precision and style. Begin your meticulous journey today.
+            </p>
+<button class="bg-primary-fixed text-primary rounded px-10 py-4 text-label-md font-label-md hover:bg-white transition-colors shadow-sm">
+                Create Your Account
+            </button>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-background border-t border-low-contrast dark:border-outline-variant shadow-sm z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 scale-95 active:scale-90 transition-transform active:bg-surface-container-highest dark:active:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform active:bg-surface-container-highest dark:active:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-label-sm font-label-sm mt-1">Journal</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform active:bg-surface-container-highest dark:active:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="add_a_photo">add_a_photo</span>
+<span class="text-label-sm font-label-sm mt-1">Log</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 scale-95 active:scale-90 transition-transform active:bg-surface-container-highest dark:active:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="text-label-sm font-label-sm mt-1">Trends</span>
+</a>
+</nav>
+</body></html>

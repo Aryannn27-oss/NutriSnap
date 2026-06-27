@@ -10,23 +10,34 @@ export default function ProfilePage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [weight, setWeight] = useState(178);
-  const [targetWeight, setTargetWeight] = useState(165);
-  const [bodyFat, setBodyFat] = useState(18);
-  const [bmi, setBmi] = useState(23.4);
+  
+  // Health Metrics
+  const [weight, setWeight] = useState<number | string>("");
+  const [targetWeight, setTargetWeight] = useState<number | string>("");
+  const [height, setHeight] = useState<number | string>("");
+  const [bmi, setBmi] = useState<number | string>("");
 
   const [dietaryPrefs, setDietaryPrefs] = useState<string[]>([]);
+  const [showSetupModal, setShowSetupModal] = useState(false);
 
   useEffect(() => {
     if (profileData) {
       setFirstName(profileData.firstName || "");
       setLastName(profileData.lastName || "");
       setEmail(profileData.email || "");
-      setWeight(profileData.weight || 178);
-      setTargetWeight(profileData.targetWeight || 165);
-      setBodyFat(profileData.bodyFat || 18);
-      setBmi(profileData.bmi || 23.4);
-      setDietaryPrefs(profileData.dietaryPrefs || ["High Protein", "Gluten-Free", "Low Carb"]);
+      setWeight(profileData.weight !== undefined ? profileData.weight : "");
+      setTargetWeight(profileData.targetWeight !== undefined ? profileData.targetWeight : "");
+      setHeight(profileData.height !== undefined ? profileData.height : "");
+      setBmi(profileData.bmi !== undefined ? profileData.bmi : "");
+      setDietaryPrefs(profileData.dietaryPrefs || []);
+
+      // Auto-trigger setup modal if key health values are not set (acting as onboarding)
+      if (
+        profileData.weight === undefined ||
+        profileData.height === undefined
+      ) {
+        setShowSetupModal(true);
+      }
     }
   }, [profileData]);
 
@@ -43,21 +54,53 @@ export default function ProfilePage() {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleRemovePref = async (prefToRemove: string) => {
+    const updated = dietaryPrefs.filter((p) => p !== prefToRemove);
+    setDietaryPrefs(updated);
+    try {
+      await updateProfile({ dietaryPrefs: updated });
+    } catch (err) {
+      console.error("Remove pref error:", err);
+    }
+  };
+
+  const handleSaveAccount = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateProfile({
         firstName,
         lastName,
-        weight: Number(weight),
-        targetWeight: Number(targetWeight),
-        bodyFat: Number(bodyFat),
-        bmi: Number(bmi),
       });
-      alert("Profile changes saved successfully!");
+      alert("Account details saved successfully!");
     } catch (err: any) {
       console.error("Save profile error:", err);
-      alert("Failed to save profile changes. Please try again.");
+      alert("Failed to save account details.");
+    }
+  };
+
+  const handleSaveSetup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const w = weight !== "" ? Number(weight) : undefined;
+      const h = height !== "" ? Number(height) : undefined;
+      
+      // Calculate BMI: (weight_lbs / height_inches^2) * 703
+      let calculatedBmi: number | undefined = undefined;
+      if (w && h && h > 0) {
+        calculatedBmi = Number(((w / (h * h)) * 703).toFixed(1));
+      }
+
+      await updateProfile({
+        weight: w,
+        targetWeight: targetWeight !== "" ? Number(targetWeight) : undefined,
+        height: h,
+        bmi: calculatedBmi,
+      });
+      setShowSetupModal(false);
+      alert("Health profile saved successfully!");
+    } catch (err) {
+      console.error("Save health setup error:", err);
+      alert("Failed to save health data.");
     }
   };
 
@@ -91,7 +134,7 @@ export default function ProfilePage() {
         </div>
         <Link href="/settings">
           <button className="text-sm font-semibold text-primary border border-primary px-6 py-2 rounded hover:bg-surface-container transition-colors inline-block cursor-pointer">
-            Edit Profile
+            Edit Preferences
           </button>
         </Link>
       </header>
@@ -102,42 +145,73 @@ export default function ProfilePage() {
         <div className="md:col-span-5 space-y-6">
           {/* Health Profile */}
           <section className="bg-surface border border-low-contrast rounded-lg p-6">
-            <div className="flex items-center gap-2 mb-6 border-b border-low-contrast pb-4">
-              <span className="material-symbols-outlined text-primary">monitor_weight</span>
-              <h2 className="text-xl font-display text-primary">Health Profile</h2>
+            <div className="flex items-center justify-between mb-6 border-b border-low-contrast pb-4">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">monitor_weight</span>
+                <h2 className="text-xl font-display text-primary">Health Profile</h2>
+              </div>
+              <button
+                onClick={() => setShowSetupModal(true)}
+                className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+              >
+                Edit
+              </button>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {/* Data Point */}
               <div className="bg-canvas border border-low-contrast rounded p-4 flex flex-col">
                 <span className="text-xs font-semibold text-slate-muted mb-1">Current Weight</span>
                 <span className="text-xl font-display text-primary">
-                  {weight}
-                  <span className="text-sm font-body text-on-surface-variant ml-1">lbs</span>
+                  {weight !== "" ? (
+                    <>
+                      {weight}
+                      <span className="text-sm font-body text-on-surface-variant ml-1">lbs</span>
+                    </>
+                  ) : (
+                    "—"
+                  )}
                 </span>
               </div>
               {/* Data Point */}
               <div className="bg-surface-container-low border border-low-contrast rounded p-4 flex flex-col relative overflow-hidden">
                 <span className="text-xs font-semibold text-slate-muted mb-1">Target Weight</span>
                 <span className="text-xl font-display text-primary">
-                  {targetWeight}
-                  <span className="text-sm font-body text-on-surface-variant ml-1">lbs</span>
+                  {targetWeight !== "" ? (
+                    <>
+                      {targetWeight}
+                      <span className="text-sm font-body text-on-surface-variant ml-1">lbs</span>
+                    </>
+                  ) : (
+                    "—"
+                  )}
                 </span>
                 <div className="absolute bottom-0 left-0 w-full h-1 bg-border-low-contrast">
-                  <div className="h-full bg-[#D9A066]" style={{ width: "40%" }}></div>
+                  <div
+                    className="h-full bg-[#D9A066]"
+                    style={{
+                      width: weight && targetWeight ? `${Math.min(100, (Number(targetWeight) / Number(weight)) * 100)}%` : "0%",
+                    }}
+                  ></div>
                 </div>
               </div>
               {/* Data Point */}
               <div className="bg-canvas border border-low-contrast rounded p-4 flex flex-col">
-                <span className="text-xs font-semibold text-slate-muted mb-1">Body Fat</span>
+                <span className="text-xs font-semibold text-slate-muted mb-1">Height</span>
                 <span className="text-xl font-display text-primary">
-                  {bodyFat}
-                  <span className="text-sm font-body text-on-surface-variant ml-1">%</span>
+                  {height !== "" ? (
+                    <>
+                      {height}
+                      <span className="text-sm font-body text-on-surface-variant ml-1">in</span>
+                    </>
+                  ) : (
+                    "—"
+                  )}
                 </span>
               </div>
               {/* Data Point */}
               <div className="bg-canvas border border-low-contrast rounded p-4 flex flex-col">
                 <span className="text-xs font-semibold text-slate-muted mb-1">BMI</span>
-                <span className="text-xl font-display text-primary">{bmi}</span>
+                <span className="text-xl font-display text-primary">{bmi !== "" ? bmi : "—"}</span>
               </div>
             </div>
           </section>
@@ -152,9 +226,16 @@ export default function ProfilePage() {
               {dietaryPrefs.map((pref, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 border border-primary text-primary rounded-full text-sm font-semibold bg-surface-container-low"
+                  className="px-4 py-2 border border-primary text-primary rounded-full text-sm font-semibold bg-surface-container-low flex items-center gap-2"
                 >
                   {pref}
+                  <button
+                    onClick={() => handleRemovePref(pref)}
+                    className="hover:text-red-600 transition-colors focus:outline-none flex items-center justify-center cursor-pointer"
+                    aria-label={`Remove ${pref}`}
+                  >
+                    <span className="material-symbols-outlined text-[16px]">close</span>
+                  </button>
                 </span>
               ))}
               <button
@@ -167,73 +248,15 @@ export default function ProfilePage() {
           </section>
         </div>
 
-        {/* Right Column (Goals & Settings) */}
+        {/* Right Column (Settings) */}
         <div className="md:col-span-7 space-y-6">
-          {/* Nutrition Goals */}
-          <section className="bg-surface border border-low-contrast rounded-lg p-6">
-            <div className="flex items-center justify-between mb-6 border-b border-low-contrast pb-4">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">track_changes</span>
-                <h2 className="text-xl font-display text-primary">Daily Targets</h2>
-              </div>
-              <button className="text-xs font-semibold text-primary hover:underline cursor-pointer">
-                Edit Targets
-              </button>
-            </div>
-            <div className="space-y-6">
-              {/* Goal Item */}
-              <div>
-                <div className="flex justify-between items-end mb-1">
-                  <span className="text-sm font-semibold text-on-surface">Calories</span>
-                  <span className="text-sm text-slate-muted">{profileData?.caloriesTarget || 2400} kcal</span>
-                </div>
-                <div className="w-full h-1 bg-border-low-contrast relative my-3">
-                  <div className="h-1 bg-primary rounded-sm absolute top-[-1.5px] left-0" style={{ width: "80%" }}></div>
-                </div>
-              </div>
-              {/* Macros Grid */}
-              <div className="grid grid-cols-3 gap-6 pt-4 border-t border-low-contrast border-dashed">
-                {/* Macro Item */}
-                <div>
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-xs font-semibold text-on-surface">Protein</span>
-                  </div>
-                  <span className="text-sm text-slate-muted block mb-2">{profileData?.proteinTarget || 180}g</span>
-                  <div className="w-full h-1 bg-border-low-contrast relative my-3">
-                    <div className="h-1 bg-[#D9A066] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "60%" }}></div>
-                  </div>
-                </div>
-                {/* Macro Item */}
-                <div>
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-xs font-semibold text-on-surface">Carbs</span>
-                  </div>
-                  <span className="text-sm text-slate-muted block mb-2">{profileData?.carbsTarget || 200}g</span>
-                  <div className="w-full h-1 bg-border-low-contrast relative my-3">
-                    <div className="h-1 bg-[#C2CBB5] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "45%" }}></div>
-                  </div>
-                </div>
-                {/* Macro Item */}
-                <div>
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-xs font-semibold text-on-surface">Fats</span>
-                  </div>
-                  <span className="text-sm text-slate-muted block mb-2">{profileData?.fatsTarget || 70}g</span>
-                  <div className="w-full h-1 bg-border-low-contrast relative my-3">
-                    <div className="h-1 bg-[#fdad67] rounded-sm absolute top-[-1.5px] left-0" style={{ width: "85%" }}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Account Settings */}
+          {/* Account Details */}
           <section className="bg-surface border border-low-contrast rounded-lg p-6">
             <div className="flex items-center gap-2 mb-6 border-b border-low-contrast pb-4">
               <span className="material-symbols-outlined text-primary">manage_accounts</span>
               <h2 className="text-xl font-display text-primary">Account Details</h2>
             </div>
-            <form onSubmit={handleSave} className="space-y-6">
+            <form onSubmit={handleSaveAccount} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-on-surface-variant">First Name</label>
@@ -257,47 +280,90 @@ export default function ProfilePage() {
               <div className="flex flex-col gap-1">
                 <label className="text-xs font-semibold text-on-surface-variant">Email Address</label>
                 <input
-                  className="border border-low-contrast bg-canvas p-3 rounded text-base font-body focus:outline-none focus:border-primary transition-colors"
+                  className="border border-low-contrast bg-canvas p-3 rounded text-base font-body focus:outline-none focus:border-primary transition-colors opacity-70"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  readOnly
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-xs font-semibold text-on-surface-variant">Password</label>
-                <div className="relative">
-                  <input
-                    className="w-full border border-low-contrast bg-canvas p-3 rounded text-base font-body focus:outline-none focus:border-primary transition-colors pr-20"
-                    type="password"
-                    value="********"
-                    readOnly
-                  />
-                  <button
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-primary hover:underline cursor-pointer"
-                    type="button"
-                  >
-                    Change
-                  </button>
-                </div>
-              </div>
               <div className="pt-4 border-t border-low-contrast flex justify-end gap-4">
-                <button
-                  className="px-6 py-2 border border-transparent text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
-                  type="button"
-                >
-                  Cancel
-                </button>
                 <button
                   className="px-6 py-2 bg-primary text-white rounded text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer"
                   type="submit"
                 >
-                  Save Changes
+                  Save Account Details
                 </button>
               </div>
             </form>
           </section>
         </div>
       </div>
+
+      {/* SETUP & ONBOARDING HEALTH MODAL */}
+      {showSetupModal && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-surface border border-low-contrast rounded-lg max-w-md w-full p-6 shadow-2xl relative">
+            <h3 className="text-2xl font-display text-primary font-bold mb-2">Complete Health Setup</h3>
+            <p className="text-xs text-on-surface-variant mb-6">
+              Enter your current health details to personalize your NutriSnap profile.
+            </p>
+            <form onSubmit={handleSaveSetup} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-on-surface-variant">Height (inches)</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 70"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    className="border border-low-contrast bg-canvas p-2.5 rounded text-sm focus:outline-none focus:border-primary"
+                    required
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-on-surface-variant">Weight (lbs)</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 175"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    className="border border-low-contrast bg-canvas p-2.5 rounded text-sm focus:outline-none focus:border-primary"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-semibold text-on-surface-variant">Target Weight (lbs)</label>
+                <input
+                  type="number"
+                  placeholder="e.g. 160"
+                  value={targetWeight}
+                  onChange={(e) => setTargetWeight(e.target.value)}
+                  className="border border-low-contrast bg-canvas p-2.5 rounded text-sm focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-low-contrast mt-6">
+                {profileData?.weight && profileData?.height && (
+                  <button
+                    type="button"
+                    onClick={() => setShowSetupModal(false)}
+                    className="px-4 py-2 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-primary text-white rounded text-xs font-semibold hover:opacity-90 transition-opacity cursor-pointer"
+                >
+                  Save Settings
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
