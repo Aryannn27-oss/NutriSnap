@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -139,7 +140,7 @@ export default function LoginPage() {
           {/* Registration Link */}
           <div className="mt-8 text-center">
             <p className="font-body text-sm text-on-surface-variant">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link className="text-primary font-medium hover:text-secondary transition-colors underline decoration-border-low-contrast underline-offset-4" href="/signup">
                 Sign up
               </Link>

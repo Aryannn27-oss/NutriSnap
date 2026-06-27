@@ -146,7 +146,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userDocRef = doc(db, "users", user.uid);
     // Remove any undefined properties to prevent Firestore updateDoc crashes
     const cleanData = Object.fromEntries(
-      Object.entries(data).filter(([_, v]) => v !== undefined)
+      Object.entries(data).filter((entry) => entry[1] !== undefined)
     );
     await updateDoc(userDocRef, cleanData);
   };

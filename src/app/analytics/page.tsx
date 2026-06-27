@@ -18,7 +18,7 @@ export default function AnalyticsPage() {
         </span>
         <h3 className="text-xl font-display font-semibold text-primary mb-2">Analytics are loading</h3>
         <p className="text-on-surface-variant max-w-md mx-auto">
-          Once you have logged meals over several days, you'll see charts and trend graphs showing your macro breakdown here.
+          Once you have logged meals over several days, you&apos;ll see charts and trend graphs showing your macro breakdown here.
         </p>
       </div>
     </main>

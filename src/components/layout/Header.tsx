@@ -53,7 +53,7 @@ export default function Header() {
           {showNotifications && (
             <div className="absolute right-0 top-10 w-64 bg-white border border-low-contrast rounded shadow-lg p-4 z-50 text-left">
               <h4 className="text-sm font-semibold text-primary mb-2">Notifications</h4>
-              <p className="text-xs text-on-surface-variant font-normal">You're all caught up! No new notifications.</p>
+              <p className="text-xs text-on-surface-variant font-normal">You&apos;re all caught up! No new notifications.</p>
             </div>
           )}
         </div>

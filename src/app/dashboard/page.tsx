@@ -145,7 +145,7 @@ export default function Dashboard() {
               {showNotifications && (
                 <div className="absolute right-24 top-12 w-64 bg-white border border-low-contrast rounded shadow-lg p-4 z-50 text-left">
                   <h4 className="text-sm font-semibold text-primary mb-2">Notifications</h4>
-                  <p className="text-xs text-on-surface-variant font-normal">You're all caught up! No new notifications.</p>
+                  <p className="text-xs text-on-surface-variant font-normal">You&apos;re all caught up! No new notifications.</p>
                 </div>
               )}
               <Link href="/settings" className="flex items-center">
@@ -296,7 +296,7 @@ export default function Dashboard() {
 
           {/* Today's Meals Grid */}
           <div>
-            <h3 className="text-xl font-display text-primary font-bold mb-4">Today's Meals</h3>
+            <h3 className="text-xl font-display text-primary font-bold mb-4">Today&apos;s Meals</h3>
             {todayMeals.length === 0 ? (
               <div className="bg-white border border-low-contrast rounded-lg p-10 text-center shadow-sm">
                 <span className="material-symbols-outlined text-5xl text-slate-muted mb-3">restaurant</span>
@@ -367,7 +367,7 @@ export default function Dashboard() {
             <span className="material-symbols-outlined text-primary mb-3">lightbulb</span>
             <h4 className="text-xs font-semibold text-primary uppercase mb-2">Insight</h4>
             <p className="text-sm text-on-surface-variant leading-relaxed">
-              You're trending higher in healthy fats this week compared to last. Keep balancing with complex carbs!
+              You&apos;re trending higher in healthy fats this week compared to last. Keep balancing with complex carbs!
             </p>
           </div>
         </div>
