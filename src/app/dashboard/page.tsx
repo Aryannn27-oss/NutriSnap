@@ -39,7 +39,8 @@ const getWeekDays = () => {
 
 export default function Dashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { user, profileData } = useAuth();
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const { user, profileData, signOut } = useAuth();
   const [weeklyMeals, setWeeklyMeals] = useState<Meal[]>([]);
   const [loadingMeals, setLoadingMeals] = useState(true);
 
@@ -148,11 +149,37 @@ export default function Dashboard() {
                   <p className="text-xs text-on-surface-variant font-normal">You&apos;re all caught up! No new notifications.</p>
                 </div>
               )}
-              <Link href="/settings" className="flex items-center">
-                <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">
-                  settings
-                </span>
-              </Link>
+              <div className="relative flex items-center">
+                <button
+                  onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                  className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer p-1 focus:outline-none flex items-center"
+                >
+                  <span className="material-symbols-outlined">settings</span>
+                </button>
+                {showSettingsMenu && (
+                  <div className="absolute right-0 top-10 w-48 bg-white border border-low-contrast rounded shadow-lg py-2 z-50 text-left">
+                    <Link
+                      href="/settings"
+                      className="block px-4 py-2 text-sm text-on-surface-variant hover:bg-slate-50 hover:text-primary transition-colors"
+                      onClick={() => setShowSettingsMenu(false)}
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={async () => {
+                        try {
+                          await signOut();
+                        } catch (error) {
+                          console.error("Sign out error:", error);
+                        }
+                      }}
+                      className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
               <Link href="/profile" className="flex items-center">
                 <img
                   className="w-10 h-10 rounded-full object-cover border border-low-contrast cursor-pointer"

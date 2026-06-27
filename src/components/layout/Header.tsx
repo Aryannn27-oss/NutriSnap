@@ -6,7 +6,8 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
-  const { user } = useAuth();
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const { user, signOut } = useAuth();
 
   return (
     <header className="bg-surface dark:bg-background border-b border-low-contrast flex justify-between items-center w-full px-6 md:px-16 h-16 max-w-7xl mx-auto sticky top-0 z-40 shadow-sm md:shadow-none">
@@ -57,9 +58,37 @@ export default function Header() {
             </div>
           )}
         </div>
-        <Link href="/settings" className="text-on-surface-variant hover:text-primary transition-colors p-1">
-          <span className="material-symbols-outlined">settings</span>
-        </Link>
+        <div className="relative flex items-center">
+          <button 
+            onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+            className="text-on-surface-variant hover:text-primary transition-colors p-1 cursor-pointer focus:outline-none flex items-center"
+          >
+            <span className="material-symbols-outlined">settings</span>
+          </button>
+          {showSettingsMenu && (
+            <div className="absolute right-0 top-10 w-48 bg-white border border-low-contrast rounded shadow-lg py-2 z-50 text-left">
+              <Link
+                href="/settings"
+                className="block px-4 py-2 text-sm text-on-surface-variant hover:bg-slate-50 hover:text-primary transition-colors"
+                onClick={() => setShowSettingsMenu(false)}
+              >
+                Settings
+              </Link>
+              <button
+                onClick={async () => {
+                  try {
+                    await signOut();
+                  } catch (error) {
+                    console.error("Sign out error:", error);
+                  }
+                }}
+                className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
         <Link href="/profile" className="ml-2 flex items-center">
           <img
             alt="User profile photo"
